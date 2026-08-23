@@ -307,10 +307,10 @@ to use, copy, modify, merge, and/or publish the Software...
 
 | نسخه | تاریخ | تغییرات |
 |------|---------|----------|
-| 1.0 | 2024 | رونمایی اولیه |
-| 1.1 | 2024 | Firebase Integration + Cross-Device Support |
-| 1.2 | ⏳ | افزودن زبان‌های جدید + QR Code |
-| 1.3 | ⏳ | محدودیت زمانی و شمارندهٔ دسترسی |
+| 1.0.0 | 2026 | رونمایی اولیه |
+| 1.0.1 | 2026 | Firebase Integration + Cross-Device Support |
+| ? | ⏳ | افزودن زبان‌های جدید + QR Code |
+| ? | ⏳ | محدودیت زمانی و شمارندهٔ دسترسی |
 
 ---
 
