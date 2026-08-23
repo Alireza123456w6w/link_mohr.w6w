@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مُهر — لینک محرمانه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #171512;
+    --ink-2: #211d18;
+    --card: #2a251f;
+    --parchment: #ece3ce;
+    --parchment-dim: #c7bba0;
+    --wax: #8c2a34;
+    --wax-light: #ad3a44;
+    --brass: #c9a15b;
+    --brass-dim: #8f7746;
+    --muted: #9c9184;
+    --danger: #c96b3d;
+    --ok: #7f9e6d;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--ink);
+    background-image:
+      radial-gradient(ellipse at 50% -10%, rgba(201,161,91,0.08), transparent 60%),
+      radial-gradient(ellipse at 90% 110%, rgba(140,42,52,0.10), transparent 55%);
+    font-family: 'Vazirmatn', sans-serif;
+    color: var(--parchment);
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+
+  .wrap { width: 100%; max-width: 440px; }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--brass);
+    font-weight: 600;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to left, var(--brass-dim), transparent);
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-size: clamp(22px, 5vw, 28px);
+    font-weight: 800;
+    margin: 0 0 22px;
+    color: var(--parchment);
+    line-height: 1.4;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(201,161,91,0.28);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    color: var(--parchment-dim);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+
+  input[type="url"], input[type="text"], input[type="password"] {
+    width: 100%;
+    background: var(--ink-2);
+    border: 1px solid rgba(201,161,91,0.22);
+    border-radius: 6px;
+    padding: 11px 13px;
+    color: var(--parchment);
+    font-family: inherit;
+    font-size: 14.5px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input::placeholder { color: var(--muted); }
+  input:focus {
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(201,161,91,0.15);
+  }
+  input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  .field { margin-bottom: 16px; }
+
+  .toggle-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(201,161,91,0.12);
+  }
+  .toggle-row:first-of-type { border-top: 1px solid rgba(201,161,91,0.12); margin-top: 6px; }
+  .toggle-row input[type="checkbox"] {
+    accent-color: var(--wax);
+    width: 18px; height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .toggle-row .t-label { font-size: 14.5px; font-weight: 600; color: var(--parchment); cursor: pointer; }
+  .toggle-row .t-desc { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .toggle-row label.t-main { flex: 1; margin: 0; cursor: pointer; }
+
+  #passwordField { margin-top: 10px; margin-right: 28px; display: none; }
+  #passwordField.show { display: block; }
+
+  button.seal-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: linear-gradient(180deg, var(--wax-light), var(--wax));
+    border: 1px solid rgba(0,0,0,0.25);
+    color: var(--parchment);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 10px 20px rgba(140,42,52,0.25);
+    transition: transform .12s, box-shadow .12s;
+    letter-spacing: 0.01em;
+  }
+  button.seal-btn:hover { filter: brightness(1.06); }
+  button.seal-btn:active, button.seal-btn.pressed {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 4px 10px rgba(140,42,52,0.2);
+  }
+  button.seal-btn:disabled { opacity: 0.6; cursor: default; }
+  button.seal-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+  button.ghost-btn {
+    background: transparent;
+    border: 1px solid rgba(201,161,91,0.4);
+    color: var(--brass);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  button.ghost-btn:hover { background: rgba(201,161,91,0.1); }
+  button.ghost-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  .error-msg {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 18px;
+    line-height: 1.7;
+    border-top: 1px solid rgba(201,161,91,0.12);
+    padding-top: 14px;
+  }
+
+  /* result / ticket */
+  .ticket {
+    background: var(--ink-2);
+    border: 1px dashed rgba(201,161,91,0.45);
+    border-radius: 6px;
+    padding: 14px;
+    margin: 4px 0 16px;
+  }
+  .ticket .ticket-label { font-size: 11.5px; color: var(--muted); margin-bottom: 6px; letter-spacing: .04em; }
+  .ticket .ticket-link {
+    font-size: 13px;
+    color: var(--brass);
+    word-break: break-all;
+  }
+
+  .copy-row { display: flex; gap: 8px; }
+  .copy-row button { flex-shrink: 0; }
+
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .badge {
+    font-size: 11.5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(201,161,91,0.35);
+    color: var(--brass-dim);
+    background: rgba(201,161,91,0.06);
+  }
+
+  /* seal emblem for reveal view */
+  .seal-emblem {
+    width: 88px; height: 88px;
+    margin: 4px auto 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, var(--wax-light), var(--wax) 70%);
+    border: 2px solid rgba(201,161,91,0.5);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 24px rgba(140,42,52,0.35), inset 0 -6px 10px rgba(0,0,0,0.25);
+    transition: transform .5s cubic-bezier(.4,0,.2,1), opacity .5s;
+  }
+  .seal-emblem.cracked { transform: scale(1.15) rotate(8deg); opacity: 0; }
+  .seal-emblem svg { width: 34px; height: 34px; opacity: 0.9; }
+
+  .center { text-align: center; }
+
+  .reveal-url {
+    background: var(--ink-2);
+    border: 1px solid rgba(127,158,109,0.4);
+    border-radius: 6px;
+    padding: 14px;
+    word-break: break-all;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .reveal-url a { color: var(--ok); text-decoration: none; font-weight: 600; }
+  .reveal-url a:hover { text-decoration: underline; }
+
+  .status-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+
+  .loader {
+    width: 22px; height: 22px;
+    border: 2.5px solid rgba(201,161,91,0.25);
+    border-top-color: var(--brass);
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  @media (max-width: 420px) {
+    .card { padding: 22px 18px; }
+  }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .top-row .eyebrow { flex: 1; margin: 0; }
+
+  button.lang-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid rgba(201,161,91,0.4);
+    color: var(--brass);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background .15s;
+  }
+  button.lang-btn:hover { background: rgba(201,161,91,0.1); }
+  button.lang-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  .credits {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(201,161,91,0.15);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+  .credits-title {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--brass-dim);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .credits-row { margin-bottom: 6px; }
+  .credits-row .credits-name {
+    color: var(--parchment-dim);
+    font-weight: 600;
+    margin-inline-end: 10px;
+  }
+  .credits-row a {
+    color: var(--brass);
+    text-decoration: none;
+    margin-inline-end: 12px;
+    display: inline-block;
+  }
+  .credits-row a:hover { text-decoration: underline; }
+  .credits-desc { color: var(--muted); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top-row">
+      <div class="eyebrow" id="eyebrowText">ابزار لینک محرمانه</div>
+      <button type="button" class="lang-btn" id="langToggle">EN</button>
+    </div>
+    <h1 id="pageTitle">لینکت رو مُهر و موم کن</h1>
+    <div class="card" id="app"></div>
+
+    <div class="credits" id="creditsBox">
+      <div class="credits-title" id="creditsTitle">سازندگان و تماس</div>
+      <div class="credits-row">
+        <span class="credits-name">Offers Pishnahadat</span>
+        <a href="mailto:Offerspishnahadat.feedback@gmail.com">Offerspishnahadat.feedback@gmail.com</a>
+        <a href="https://www.youtube.com/@offers_pishnahadat" target="_blank" rel="noopener noreferrer">YouTube: @offers_pishnahadat</a>
+        <a href="https://zaya.io/offers_pishnahadat" target="_blank" rel="noopener noreferrer">zaya.io/offers_pishnahadat</a>
+      </div>
+      <div class="credits-row">
+        <span class="credits-name">Claude (Anthropic)</span>
+        <span class="credits-desc" id="creditsClaudeDesc">دستیار هوش مصنوعی که در طراحی و کدنویسی این ابزار همکاری کرد</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+const PREFIX = 'mohr:';
+const ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789';
+
+// ---------- i18n ----------
+let LANG = 'fa';
+
+const STRINGS = {
+  fa: {
+    dir: 'rtl',
+    eyebrow: 'ابزار لینک محرمانه',
+    titleCreate: 'لینکت رو مُهر و موم کن',
+    titleResult: 'مُهر خورد ✓',
+    titleReveal: 'یک لینک محرمانه برای تو',
+    langBtn: 'EN',
+
+    sandboxWarning: 'ℹ️ این صفحه داخل Claude با یک محیط ایزوله (sandbox) اجرا می‌شه، پس نمی‌تونم لینکِ خودکار کلیک‌پذیر (با #) بسازم — این محدودیت امنیتیه و با Publish کردن هم برطرف نمی‌شه. به‌جاش بعد از ساختن، یک «کد» می‌دم که باید جدا بفرستی؛ گیرنده با دکمه‌ی «کد یه لینک رو داری؟» پایین همین صفحه بازش می‌کنه.<br><br>⚠️ نکته‌ی مهم: باید همین فرم رو از خودِ صفحه‌ی <b>منتشرشده</b> (claude.ai/public/artifacts/...) پر کنی، نه از پیش‌نمایش داخل چت. اگه کد رو تو پیش‌نمایش چت بسازی و بعد تو صفحه‌ی منتشرشده امتحانش کنی (یا برعکس)، چون این دو تا فضای ذخیره‌سازی جدا از هم دارن، کد پیدا نمی‌شه.',
+    unstableWarning: '⚠️ این فایل الان با یک آدرس موقت باز شده (احتمالاً مستقیم از داخل چت یک اپ پیام‌رسان مثل روبیکا). تو این حالت هر لینکی که اینجا بسازی، دیگه قابل بازشدن نیست و همون خطای «دسترسی به فایل ممکن نبود» رو می‌ده.<br>راه‌حل: اول فایل رو تو «دانلودها»ی گوشی ذخیره کن و از اونجا با Chrome بازش کن؛ یا همینجا داخل Claude (بدون دانلود کردن) ازش استفاده کن.',
+
+    destLabel: 'آدرس لینک مقصد',
+    destPlaceholder: 'example.com/secret-page',
+    oneTimeLabel: 'یک‌بار مصرف',
+    oneTimeDesc: 'بعد از اولین بازِ شدن، لینک برای همیشه از بین می‌رود.',
+    pwLabel: 'محافظت با رمز',
+    pwDesc: 'فقط با وارد کردن رمز، لینک باز می‌شود؛ خودِ آدرس مقصد هم با همین رمز رمزنگاری می‌شود (AES-256)، نه فقط بررسیِ ساده.',
+    noCryptoWarning: '⚠️ رمزنگاری واقعی در این مرورگر در دسترس نیست؛ رمز فقط به‌صورت ساده بررسی می‌شه و از نظر امنیتی ضعیف‌تره.',
+    errEncryptFailed: 'رمزنگاری آدرس با مشکل مواجه شد. دوباره امتحان کن.',
+    pwPlaceholder: 'یک رمز انتخاب کن',
+    sealBtn: 'مُهر و موم کن',
+    sealing: 'در حال مُهر زدن…',
+    formHint: 'این ابزار برای اشتراک‌گذاری راحت و محرمانه‌ی یک لینک است، نه برای اطلاعات فوق‌حساس مثل رمزهای بانکی. هر کس که لینک نهایی را داشته باشد، در صورت درست بودن رمز، می‌تواند آن را باز کند.',
+
+    haveCodeBtn: 'کد یه لینک رو داری؟ اینجا بازش کن',
+    haveCodePlaceholder: 'کد رو اینجا پیست کن',
+    haveCodeSubmit: 'باز کردن',
+    haveCodeEmpty: 'اول کد رو وارد کن.',
+
+    errNoUrl: 'اول آدرس لینک مقصد رو وارد کن.',
+    errNoPw: 'یک رمز برای محافظت وارد کن، یا گزینه‌ی رمز رو غیرفعال کن.',
+    errNoOption: 'حداقل یکی از گزینه‌های «یک‌بار مصرف» یا «رمز» رو انتخاب کن.',
+    errContentUri: 'این فایل با یک آدرس موقت (content://) باز شده، پس لینکی که بسازم کار نمی‌کنه. اول فایل رو تو «دانلودها» ذخیره کن و با Chrome بازش کن، یا همینجا تو Claude (بدون دانلود) ازش استفاده کن.',
+    errStorageSandbox: 'ذخیره‌سازی موفق نبود — به احتمال زیاد چون این آرتیفکت هنوز Publish نشده. از پنل آرتیفکت روی «Publish» بزن و دوباره امتحان کن.',
+    errStorageGeneric: 'مشکلی در ذخیره‌سازی پیش اومد. دوباره امتحان کن.',
+    errUnexpected: 'یه خطای غیرمنتظره پیش اومد. دوباره امتحان کن.',
+
+    badgeOneTime: 'یک‌بار مصرف',
+    badgePassword: 'رمزدار',
+    codeLabel: 'کد محرمانه‌ی تو',
+    linkLabel: 'لینک محرمانه‌ی تو',
+    copyCode: 'کپی کردن کد',
+    copyLink: 'کپی کردن لینک',
+    copied: 'کپی شد ✓',
+    hintSandbox: 'این کد رو جدا (پیامک، تلگرام، هرجا) برای گیرنده بفرست. گیرنده باید همین صفحه‌ی ابزار رو باز کنه (همون آدرسی که الان تو نوار مرورگرته) و از دکمه‌ی «کد یه لینک رو داری؟» این کد رو وارد کنه.',
+    hintOneTimeExtra: ' با اولین بازکردن، کد برای همیشه از بین می‌ره.',
+    hintPwExtra: ' برای باز شدن، رمزی که انتخاب کردی هم لازمه.',
+    hintSandboxPublishWarn: '⚠️ اگه این آرتیفکت رو Publish نکرده باشی، گیرنده اصلاً نمی‌تونه به این صفحه برسه.',
+    hintLocalFallback: '⚠️ این صفحه الان به‌صورت مستقل (بیرون از Claude) اجرا می‌شه، پس لینک فقط روی همین مرورگر و همین دستگاه کار می‌کنه و برای بازکردن توسط شخص دیگه یا روی دستگاه دیگه مناسب نیست.',
+    hintNormalOneTime: 'با اولین بازکردن، برای همیشه از بین می‌ره.',
+    hintNormalPw: 'برای باز شدن، رمزی که انتخاب کردی لازمه.',
+    hintNormalPrefix: 'این لینک رو برای هرکس که می‌خوای بفرستی.',
+    newLinkBtn: 'مُهر و موم یک لینک دیگه',
+
+    notFoundTitle: 'این لینک دیگه معتبر نیست',
+    notFoundDesc: 'یا قبلاً یک‌بار باز شده، یا از اول وجود نداشته.',
+    createNewBtn: 'ساخت یک لینک جدید',
+
+    openPromptTitle: 'یک لینک محرمانه اینجا مُهر و موم شده',
+    openPromptOneTime: 'این لینک یک‌بار مصرفه — با باز کردنش از بین می‌ره.',
+    openPromptNormal: 'می‌تونی هر وقت خواستی بازش کنی.',
+    breakBtn: 'شکستن مُهر و باز کردن',
+
+    pwGateTitle: 'این لینک رمزدار است',
+    pwGateDesc: 'برای باز کردنش، رمز رو وارد کن.',
+    pwGatePlaceholder: 'رمز',
+    unlockBtn: 'باز کردن',
+    pwWrong: 'رمز اشتباهه. دوباره امتحان کن.',
+
+    brokenTitle: 'مُهر شکسته شد',
+    goBtn: 'رفتن به لینک',
+    goneNote: 'این لینک همین الان از بین رفت و دیگه قابل استفاده نیست.',
+    staysNote: 'این لینک همچنان معتبر می‌مونه و می‌شه دوباره بازش کرد.',
+
+    creditsTitle: 'سازندگان و تماس',
+    creditsClaudeDesc: 'دستیار هوش مصنوعی که در طراحی و کدنویسی این ابزار همکاری کرد'
+  },
+  en: {
+    dir: 'ltr',
+    eyebrow: 'Secret Link Tool',
+    titleCreate: 'Seal your link',
+    titleResult: 'Sealed ✓',
+    titleReveal: 'A secret link for you',
+    langBtn: 'فا',
+
+    sandboxWarning: 'ℹ️ This page runs inside a sandboxed environment inside Claude, so I can\'t build an auto-clickable link (with a #) — that\'s a security restriction and Publishing doesn\'t change it. Instead, after you create it, I\'ll give you a "code" to send separately; the recipient opens it with the "Have a code?" button below.<br><br>⚠️ Important: you need to fill out this same form from the <b>Published</b> page itself (claude.ai/public/artifacts/...), not from the chat preview. If you create the code in the chat preview and then test it on the published page (or vice versa), the code won\'t be found, since these are two separate storage spaces.',
+    unstableWarning: '⚠️ This file was just opened from a temporary address (probably straight from inside a messaging app\'s chat, like Rubika). In this state any link you build here won\'t be reopenable and will show the same "file couldn\'t be accessed" error.<br>Fix: save the file to your phone\'s Downloads first and open it from there with Chrome, or use it right here inside Claude (without downloading it).',
+
+    destLabel: 'Destination link',
+    destPlaceholder: 'example.com/secret-page',
+    oneTimeLabel: 'One-time use',
+    oneTimeDesc: 'After it\'s opened once, the link is gone for good.',
+    pwLabel: 'Password protect',
+    pwDesc: 'The link only opens with the correct password — the destination itself is encrypted with that password (AES-256), not just checked.',
+    noCryptoWarning: '⚠️ Real encryption isn\'t available in this browser; the password will only be checked in plain text, which is weaker.',
+    errEncryptFailed: 'Encrypting the destination failed. Try again.',
+    pwPlaceholder: 'Choose a password',
+    sealBtn: 'Seal it',
+    sealing: 'Sealing…',
+    formHint: 'This tool is for sharing a link easily and privately, not for extremely sensitive data like bank passwords. Anyone who has the final link — and the password, if one was set — can open it.',
+
+    haveCodeBtn: 'Have a code from a link? Open it here',
+    haveCodePlaceholder: 'Paste the code here',
+    haveCodeSubmit: 'Open',
+    haveCodeEmpty: 'Enter the code first.',
+
+    errNoUrl: 'Enter the destination link first.',
+    errNoPw: 'Enter a password for protection, or turn off the password option.',
+    errNoOption: 'Pick at least one of "One-time use" or "Password".',
+    errContentUri: 'This file was opened from a temporary address (content://), so any link I build won\'t work. Save the file to Downloads and open it with Chrome, or use it right here inside Claude (without downloading it).',
+    errStorageSandbox: 'Saving failed — most likely because this artifact isn\'t Published yet. Click "Publish" in the artifact panel and try again.',
+    errStorageGeneric: 'Something went wrong while saving. Try again.',
+    errUnexpected: 'An unexpected error occurred. Try again.',
+
+    badgeOneTime: 'One-time',
+    badgePassword: 'Password protected',
+    codeLabel: 'Your secret code',
+    linkLabel: 'Your secret link',
+    copyCode: 'Copy code',
+    copyLink: 'Copy link',
+    copied: 'Copied ✓',
+    hintSandbox: 'Send this code separately (text message, Telegram, anywhere) to the recipient. They need to open this same tool page (the address currently in your browser bar) and enter this code using the "Have a code?" button.',
+    hintOneTimeExtra: ' The code is gone for good after the first time it\'s opened.',
+    hintPwExtra: ' The password you chose is also needed to open it.',
+    hintSandboxPublishWarn: '⚠️ If you haven\'t Published this artifact, the recipient won\'t be able to reach this page at all.',
+    hintLocalFallback: '⚠️ This page is currently running standalone (outside Claude), so the link only works in this exact browser on this exact device — it\'s not suitable for someone else, or another device, to open.',
+    hintNormalOneTime: 'It\'s gone for good after the first time it\'s opened.',
+    hintNormalPw: 'The password you chose is needed to open it.',
+    hintNormalPrefix: 'Send this link to whoever you want.',
+    newLinkBtn: 'Seal another link',
+
+    notFoundTitle: 'This link is no longer valid',
+    notFoundDesc: 'It was either already opened once, or never existed.',
+    createNewBtn: 'Create a new link',
+
+    openPromptTitle: 'A secret link is sealed here',
+    openPromptOneTime: 'This is a one-time link — it will be gone once you open it.',
+    openPromptNormal: 'You can open it whenever you\'d like.',
+    breakBtn: 'Break the seal and open',
+
+    pwGateTitle: 'This link is password protected',
+    pwGateDesc: 'Enter the password to open it.',
+    pwGatePlaceholder: 'Password',
+    unlockBtn: 'Open',
+    pwWrong: 'Wrong password. Try again.',
+
+    brokenTitle: 'Seal broken',
+    goBtn: 'Go to the link',
+    goneNote: 'This link is gone now and can\'t be used again.',
+    staysNote: 'This link stays valid and can be opened again.',
+
+    creditsTitle: 'Creators & Contact',
+    creditsClaudeDesc: 'AI assistant that helped design and build this tool'
+  }
+};
+
+function t(key) { return STRINGS[LANG][key]; }
+
+function applyShellLang() {
+  const s = STRINGS[LANG];
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = s.dir;
+  document.getElementById('eyebrowText').textContent = s.eyebrow;
+  document.getElementById('langToggle').textContent = s.langBtn;
+  document.getElementById('creditsTitle').textContent = s.creditsTitle;
+  document.getElementById('creditsClaudeDesc').textContent = s.creditsClaudeDesc;
+}
+
+// Tracks what's currently shown in #app so a language switch can re-render
+// the same screen (with the same data) in the new language instead of
+// bouncing back to the create form.
+let currentView = { name: 'create' };
+
+// ---------- core logic ----------
+
+function genId(len = 9) {
+  let id = '';
+  const arr = new Uint32Array(len);
+  crypto.getRandomValues(arr);
+  for (let i = 0; i < len; i++) id += ALPHABET[arr[i] % ALPHABET.length];
+  return id;
+}
+
+function normalizeUrl(u) {
+  u = u.trim();
+  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  return u;
+}
+
+// ---------- client-side encryption for password-protected secrets ----------
+// The password itself is never stored anywhere. Instead it's used to derive
+// an AES-256 key (via PBKDF2) that encrypts the destination URL before it's
+// ever sent to storage. Only ciphertext + salt + iv end up in window.storage,
+// so even someone who reads the raw stored record directly (e.g. by calling
+// window.storage.get from devtools with a known code) gets nothing usable
+// without the correct password. Wrong-password attempts fail AES-GCM's
+// built-in authentication check and throw, rather than silently succeeding.
+function hasCrypto() {
+  return typeof crypto !== 'undefined'
+    && crypto.subtle
+    && typeof crypto.subtle.encrypt === 'function';
+}
+
+function bytesToBase64(bytes) {
+  let bin = '';
+  const arr = new Uint8Array(bytes);
+  for (let i = 0; i < arr.length; i++) bin += String.fromCharCode(arr[i]);
+  return btoa(bin);
+}
+function base64ToBytes(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+async function deriveKey(password, saltBytes) {
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: saltBytes, iterations: 150000, hash: 'SHA-256' },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+async function encryptUrl(url, password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(password, salt);
+  const ciphertextBuf = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(url));
+  return {
+    salt: bytesToBase64(salt),
+    iv: bytesToBase64(iv),
+    ciphertext: bytesToBase64(new Uint8Array(ciphertextBuf))
+  };
+}
+
+async function decryptUrl(encPayload, password) {
+  const salt = base64ToBytes(encPayload.salt);
+  const iv = base64ToBytes(encPayload.iv);
+  const ciphertext = base64ToBytes(encPayload.ciphertext);
+  const key = await deriveKey(password, salt);
+  const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+  return new TextDecoder().decode(plainBuf);
+}
+
+function isProtected(data) {
+  return !!(data.encrypted || data.password);
+}
+
+// window.storage only exists inside Claude's artifact runtime.
+// When this file is downloaded and opened directly in a normal browser,
+// window.storage is undefined — we fall back to localStorage (device-only)
+// so the tool still works, just without cross-device sharing.
+function hasCloudStorage() {
+  return typeof window.storage !== 'undefined'
+    && window.storage
+    && typeof window.storage.set === 'function';
+}
+let usedLocalFallback = false;
+
+// Claude always renders artifact code inside a sandboxed iframe with no
+// allow-same-origin (loaded via the srcdoc attribute) — true for the
+// in-chat preview AND for a fully Published public artifact page alike.
+// location.href/hash can never be trusted to reflect the real, visible
+// browser address on this platform.
+// http:, https:, and file: origins (downloaded file, real hosting) don't
+// have this problem — hash-based auto-open works fine there.
+function hasStableOrigin() {
+  return location.protocol === 'http:'
+    || location.protocol === 'https:'
+    || location.protocol === 'file:';
+}
+
+// Running inside Claude's artifact sandbox (published or still previewing —
+// we cannot tell them apart from here; window.storage's API surface exists
+// either way).
+function isClaudeSandbox() {
+  return hasCloudStorage() && !hasStableOrigin();
+}
+
+async function saveSecret(id, data) {
+  try {
+    if (hasCloudStorage()) {
+      return await window.storage.set(PREFIX + id, JSON.stringify(data), true);
+    }
+    localStorage.setItem(PREFIX + id, JSON.stringify(data));
+    usedLocalFallback = true;
+    return true;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+async function loadSecret(id) {
+  try {
+    if (hasCloudStorage()) {
+      const res = await window.storage.get(PREFIX + id, true);
+      return res ? JSON.parse(res.value) : null;
+    }
+    const raw = localStorage.getItem(PREFIX + id);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function removeSecret(id) {
+  try {
+    if (hasCloudStorage()) {
+      await window.storage.delete(PREFIX + id, true);
+    } else {
+      localStorage.removeItem(PREFIX + id);
+    }
+  } catch (e) {}
+}
+
+function shareLink(id) {
+  return location.origin + location.pathname + '#' + id;
+}
+
+const app = document.getElementById('app');
+const titleEl = document.getElementById('pageTitle');
+
+function renderCreateForm(prefill) {
+  currentView = { name: 'create', prefill: prefill || null };
+  titleEl.textContent = t('titleCreate');
+  const sandboxed = isClaudeSandbox();
+  const unstable = !hasCloudStorage() && !hasStableOrigin();
+  app.innerHTML = `
+    ${sandboxed ? `<div class="error-msg show" style="margin-bottom:16px; line-height:1.85; color: var(--brass);">${t('sandboxWarning')}</div>` : ''}
+    ${unstable ? `<div class="error-msg show" style="margin-bottom:18px; line-height:1.8;">${t('unstableWarning')}</div>` : ''}
+    <div class="field">
+      <label for="destUrl">${t('destLabel')}</label>
+      <input type="url" id="destUrl" placeholder="${t('destPlaceholder')}" autocomplete="off">
+    </div>
+
+    <div class="toggle-row">
+      <input type="checkbox" id="oneTimeChk">
+      <label class="t-main" for="oneTimeChk">
+        <div class="t-label">${t('oneTimeLabel')}</div>
+        <div class="t-desc">${t('oneTimeDesc')}</div>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <input type="checkbox" id="pwChk">
+      <label class="t-main" for="pwChk">
+        <div class="t-label">${t('pwLabel')}</div>
+        <div class="t-desc">${t('pwDesc')}</div>
+        ${!hasCrypto() ? `<div class="t-desc" style="color:var(--danger); margin-top:4px;">${t('noCryptoWarning')}</div>` : ''}
+      </label>
+    </div>
+
+    <div id="passwordField">
+      <input type="text" id="pwInput" placeholder="${t('pwPlaceholder')}">
+    </div>
+
+    <button class="seal-btn" id="createBtn">${t('sealBtn')}</button>
+    <div class="error-msg" id="createError"></div>
+
+    <div class="hint">${t('formHint')}</div>
+
+    <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(201,161,91,0.12);">
+      <button type="button" class="ghost-btn" id="haveCodeBtn" style="width:100%;">${t('haveCodeBtn')}</button>
+      <div id="haveCodeBox" style="display:none; margin-top:10px;">
+        <input type="text" id="haveCodeInput" class="mono" placeholder="${t('haveCodePlaceholder')}" autocomplete="off"
+          style="width:100%; box-sizing:border-box; background:var(--ink-2); border:1px solid rgba(201,161,91,0.22); border-radius:6px; padding:11px 13px; color:var(--parchment); font-size:14.5px; outline:none;">
+        <button type="button" class="seal-btn" id="haveCodeSubmit" style="margin-top:10px;">${t('haveCodeSubmit')}</button>
+        <div class="error-msg" id="haveCodeError"></div>
+      </div>
+    </div>
+  `;
+
+  if (prefill) {
+    document.getElementById('destUrl').value = prefill.url || '';
+    document.getElementById('oneTimeChk').checked = !!prefill.oneTime;
+    document.getElementById('pwChk').checked = !!prefill.pwChk;
+    if (prefill.pwChk) document.getElementById('passwordField').classList.add('show');
+    document.getElementById('pwInput').value = prefill.pwVal || '';
+  }
+
+  const pwChk = document.getElementById('pwChk');
+  const pwField = document.getElementById('passwordField');
+  pwChk.addEventListener('change', () => {
+    pwField.classList.toggle('show', pwChk.checked);
+    if (pwChk.checked) document.getElementById('pwInput').focus();
+  });
+
+  document.getElementById('createBtn').addEventListener('click', onCreate);
+  document.getElementById('destUrl').addEventListener('keydown', e => {
+    if (e.key === 'Enter') onCreate();
+  });
+
+  const haveCodeBtn = document.getElementById('haveCodeBtn');
+  const haveCodeBox = document.getElementById('haveCodeBox');
+  haveCodeBtn.addEventListener('click', () => {
+    const showing = haveCodeBox.style.display !== 'none';
+    haveCodeBox.style.display = showing ? 'none' : 'block';
+    if (!showing) document.getElementById('haveCodeInput').focus();
+  });
+  const submitCode = () => {
+    const val = document.getElementById('haveCodeInput').value.trim();
+    const err = document.getElementById('haveCodeError');
+    if (!val) {
+      err.textContent = t('haveCodeEmpty');
+      err.classList.add('show');
+      return;
+    }
+    renderRevealView(val);
+  };
+  document.getElementById('haveCodeSubmit').addEventListener('click', submitCode);
+  document.getElementById('haveCodeInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitCode();
+  });
+}
+
+async function onCreate() {
+  const btn = document.getElementById('createBtn');
+  const errEl = document.getElementById('createError');
+  errEl.classList.remove('show');
+
+  const urlRaw = document.getElementById('destUrl').value;
+  const oneTime = document.getElementById('oneTimeChk').checked;
+  const pwChk = document.getElementById('pwChk').checked;
+  const pwVal = document.getElementById('pwInput').value.trim();
+
+  if (!urlRaw.trim()) {
+    errEl.textContent = t('errNoUrl');
+    errEl.classList.add('show');
+    return;
+  }
+  if (pwChk && !pwVal) {
+    errEl.textContent = t('errNoPw');
+    errEl.classList.add('show');
+    return;
+  }
+  if (!oneTime && !pwChk) {
+    errEl.textContent = t('errNoOption');
+    errEl.classList.add('show');
+    return;
+  }
+  if (!hasCloudStorage() && !hasStableOrigin()) {
+    errEl.textContent = t('errContentUri');
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add('pressed');
+  btn.textContent = t('sealing');
+
+  try {
+    const id = genId();
+    const destUrl = normalizeUrl(urlRaw);
+    const data = {
+      password: null,
+      encrypted: false,
+      enc: null,
+      url: null,
+      oneTime: oneTime,
+      createdAt: Date.now()
+    };
+
+    if (pwChk) {
+      if (hasCrypto()) {
+        try {
+          data.enc = await encryptUrl(destUrl, pwVal);
+          data.encrypted = true;
+        } catch (e) {
+          console.error(e);
+          btn.classList.remove('pressed');
+          btn.disabled = false;
+          btn.textContent = t('sealBtn');
+          errEl.textContent = t('errEncryptFailed');
+          errEl.classList.add('show');
+          return;
+        }
+      } else {
+        // No Web Crypto available in this context — fall back to a plain
+        // (weaker) password check rather than failing outright.
+        data.password = pwVal;
+        data.url = destUrl;
+      }
+    } else {
+      data.url = destUrl;
+    }
+
+    const result = await saveSecret(id, data);
+    btn.classList.remove('pressed');
+
+    if (!result) {
+      btn.disabled = false;
+      btn.textContent = t('sealBtn');
+      errEl.textContent = isClaudeSandbox() ? t('errStorageSandbox') : t('errStorageGeneric');
+      errEl.classList.add('show');
+      return;
+    }
+
+    renderResult(id, data);
+  } catch (e) {
+    console.error(e);
+    btn.classList.remove('pressed');
+    btn.disabled = false;
+    btn.textContent = t('sealBtn');
+    errEl.textContent = t('errUnexpected');
+    errEl.classList.add('show');
+  }
+}
+
+function renderResult(id, data) {
+  currentView = { name: 'result', id, data };
+  titleEl.textContent = t('titleResult');
+  const sandboxed = isClaudeSandbox();
+  const link = sandboxed ? null : shareLink(id);
+  const badges = [];
+  if (data.oneTime) badges.push(t('badgeOneTime'));
+  if (isProtected(data)) badges.push(t('badgePassword'));
+
+  const copyValue = sandboxed ? id : link;
+
+  app.innerHTML = `
+    <div class="badge-row">
+      ${badges.map(b => `<span class="badge">${b}</span>`).join('')}
+    </div>
+    ${sandboxed ? `
+    <div class="ticket">
+      <div class="ticket-label">${t('codeLabel')}</div>
+      <div class="ticket-link mono" id="linkText" style="font-size:19px; letter-spacing:2px; text-align:center;">${id}</div>
+    </div>
+    <div class="copy-row">
+      <button class="seal-btn" id="copyBtn" style="flex:1">${t('copyCode')}</button>
+    </div>
+    <div class="hint">
+      ${t('hintSandbox')}${data.oneTime ? t('hintOneTimeExtra') : ''}${isProtected(data) ? t('hintPwExtra') : ''}
+      <br><br>${t('hintSandboxPublishWarn')}
+    </div>` : `
+    <div class="ticket">
+      <div class="ticket-label">${t('linkLabel')}</div>
+      <div class="ticket-link mono" id="linkText">${link}</div>
+    </div>
+    <div class="copy-row">
+      <button class="seal-btn" id="copyBtn" style="flex:1">${t('copyLink')}</button>
+    </div>
+    <div class="hint">${usedLocalFallback ? t('hintLocalFallback') : `${t('hintNormalPrefix')} ${data.oneTime ? t('hintNormalOneTime') : ''} ${isProtected(data) ? t('hintNormalPw') : ''}`}</div>
+    `}
+    <div style="margin-top:14px; text-align:center;">
+      <button class="ghost-btn" id="newLinkBtn">${t('newLinkBtn')}</button>
+    </div>
+  `;
+
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('copyBtn');
+    try {
+      await navigator.clipboard.writeText(copyValue);
+      btn.textContent = t('copied');
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = copyValue;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = t('copied');
+    }
+    setTimeout(() => { btn.textContent = sandboxed ? t('copyCode') : t('copyLink'); }, 1800);
+  });
+
+  document.getElementById('newLinkBtn').addEventListener('click', () => {
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    renderCreateForm();
+  });
+}
+
+async function renderRevealView(id) {
+  currentView = { name: 'revealLoading', id };
+  titleEl.textContent = t('titleReveal');
+  app.innerHTML = `<div class="loader"></div>`;
+
+  const data = await loadSecret(id);
+
+  if (!data) {
+    currentView = { name: 'notFound' };
+    app.innerHTML = `
+      <div class="center">
+        <div class="seal-emblem" style="opacity:.4">${sealSvg()}</div>
+        <p style="font-weight:700; margin-bottom:6px;">${t('notFoundTitle')}</p>
+        <p class="status-note">${t('notFoundDesc')}</p>
+        <div style="margin-top:18px;">
+          <button class="ghost-btn" id="goCreate">${t('createNewBtn')}</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('goCreate').addEventListener('click', () => {
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      renderCreateForm();
+    });
+    return;
+  }
+
+  if (isProtected(data)) {
+    renderPasswordGate(id, data);
+  } else {
+    renderOpenPrompt(id, data);
+  }
+}
+
+function renderOpenPrompt(id, data) {
+  currentView = { name: 'openPrompt', id, data };
+  titleEl.textContent = t('titleReveal');
+  app.innerHTML = `
+    <div class="center">
+      <div class="seal-emblem" id="emblem">${sealSvg()}</div>
+      <p style="font-weight:700; margin-bottom:6px;">${t('openPromptTitle')}</p>
+      <p class="status-note" style="margin-bottom:16px;">${data.oneTime ? t('openPromptOneTime') : t('openPromptNormal')}</p>
+      <button class="seal-btn" id="breakBtn">${t('breakBtn')}</button>
+    </div>
+  `;
+  document.getElementById('breakBtn').addEventListener('click', () => openSecret(id, data));
+}
+
+function renderPasswordGate(id, data) {
+  currentView = { name: 'pwGate', id, data };
+  titleEl.textContent = t('titleReveal');
+  app.innerHTML = `
+    <div class="center">
+      <div class="seal-emblem" id="emblem">${sealSvg()}</div>
+      <p style="font-weight:700; margin-bottom:4px;">${t('pwGateTitle')}</p>
+      <p class="status-note" style="margin-bottom:14px;">${t('pwGateDesc')}</p>
+    </div>
+    <div class="field" style="text-align:right">
+      <input type="password" id="pwGateInput" placeholder="${t('pwGatePlaceholder')}">
+    </div>
+    <button class="seal-btn" id="unlockBtn">${t('unlockBtn')}</button>
+    <div class="error-msg" id="pwError"></div>
+  `;
+
+  const submit = async () => {
+    const val = document.getElementById('pwGateInput').value;
+    const err = document.getElementById('pwError');
+    err.classList.remove('show');
+
+    if (data.encrypted) {
+      const unlockBtn = document.getElementById('unlockBtn');
+      unlockBtn.disabled = true;
+      try {
+        const url = await decryptUrl(data.enc, val);
+        unlockBtn.disabled = false;
+        openSecret(id, Object.assign({}, data, { url: url }));
+      } catch (e) {
+        unlockBtn.disabled = false;
+        err.textContent = t('pwWrong');
+        err.classList.add('show');
+      }
+      return;
+    }
+
+    if (val === data.password) {
+      openSecret(id, data);
+    } else {
+      err.textContent = t('pwWrong');
+      err.classList.add('show');
+    }
+  };
+  document.getElementById('unlockBtn').addEventListener('click', submit);
+  document.getElementById('pwGateInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submit();
+  });
+}
+
+async function openSecret(id, data) {
+  const emblem = document.getElementById('emblem');
+  if (emblem) emblem.classList.add('cracked');
+
+  if (data.oneTime) await removeSecret(id);
+
+  setTimeout(() => {
+    renderOpenedScreen(data);
+  }, 350);
+}
+
+function renderOpenedScreen(data) {
+  currentView = { name: 'opened', data };
+  titleEl.textContent = t('titleReveal');
+  app.innerHTML = `
+    <p style="font-weight:700; margin-bottom:10px;">${t('brokenTitle')}</p>
+    <div class="reveal-url mono">
+      <a href="${data.url}" target="_blank" rel="noopener noreferrer">${data.url}</a>
+    </div>
+    <button class="seal-btn" id="goBtn">${t('goBtn')}</button>
+    <div class="status-note">${data.oneTime ? t('goneNote') : t('staysNote')}</div>
+  `;
+  document.getElementById('goBtn').addEventListener('click', () => {
+    window.open(data.url, '_blank', 'noopener,noreferrer');
+  });
+}
+
+function sealSvg() {
+  return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7l-9-5z" stroke="#ece3ce" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M9 12l2 2 4-4" stroke="#ece3ce" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+// ---------- language switching ----------
+
+function rerenderCurrentView() {
+  const v = currentView;
+  if (v.name === 'result') renderResult(v.id, v.data);
+  else if (v.name === 'pwGate') renderPasswordGate(v.id, v.data);
+  else if (v.name === 'openPrompt') renderOpenPrompt(v.id, v.data);
+  else if (v.name === 'notFound') {
+    currentView = { name: 'notFound' };
+    titleEl.textContent = t('titleReveal');
+    app.innerHTML = `
+      <div class="center">
+        <div class="seal-emblem" style="opacity:.4">${sealSvg()}</div>
+        <p style="font-weight:700; margin-bottom:6px;">${t('notFoundTitle')}</p>
+        <p class="status-note">${t('notFoundDesc')}</p>
+        <div style="margin-top:18px;">
+          <button class="ghost-btn" id="goCreate">${t('createNewBtn')}</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('goCreate').addEventListener('click', () => {
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      renderCreateForm();
+    });
+  }
+  else if (v.name === 'opened') renderOpenedScreen(v.data);
+  else renderCreateForm(v.prefill);
+}
+
+function setLang(lang) {
+  if (lang === LANG) return;
+  if (currentView.name === 'create') {
+    const destUrl = document.getElementById('destUrl');
+    const oneTimeChk = document.getElementById('oneTimeChk');
+    const pwChk = document.getElementById('pwChk');
+    const pwInput = document.getElementById('pwInput');
+    if (destUrl) {
+      currentView.prefill = {
+        url: destUrl.value,
+        oneTime: oneTimeChk ? oneTimeChk.checked : false,
+        pwChk: pwChk ? pwChk.checked : false,
+        pwVal: pwInput ? pwInput.value : ''
+      };
+    }
+  }
+  LANG = lang;
+  applyShellLang();
+  rerenderCurrentView();
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  setLang(LANG === 'fa' ? 'en' : 'fa');
+});
+
+// entry point
+(function init() {
+  applyShellLang();
+  let hash = '';
+  try { hash = location.hash.slice(1); } catch (e) {}
+  if (hash) {
+    renderRevealView(hash);
+  } else {
+    renderCreateForm();
+  }
+})();
+</script>
+</body>
+</html>
