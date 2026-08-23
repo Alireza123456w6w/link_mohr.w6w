@@ -355,6 +355,12 @@
     </div>
   </div>
 
+<!-- Firebase (real, cross-browser/cross-device storage). Safe to load even
+     before FIREBASE_CONFIG below is filled in — the app just won't use it
+     until then. -->
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
+
 <script>
 const PREFIX = 'mohr:';
 const ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789';
@@ -616,6 +622,42 @@ function isProtected(data) {
   return !!(data.encrypted || data.password);
 }
 
+// ---------- Firebase (real cross-browser / cross-device storage) ----------
+// Fill this in with YOUR OWN Firebase project's config: Firebase console ->
+// gear icon -> Project settings -> scroll to "Your apps" -> the "</>" (Web)
+// app -> the firebaseConfig object shown there. It's normal/safe for this
+// to be visible in public client code — an apiKey here is just a project
+// identifier, not a secret. Real protection comes from Firestore's Rules
+// (set those up in the Firebase console too — see the setup guide).
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBjHXu9KsjKYlA3WYpgVe1O2HZ7obNglbE",
+  authDomain: "mohr-link.firebaseapp.com",
+  projectId: "mohr-link",
+  storageBucket: "mohr-link.firebasestorage.app",
+  messagingSenderId: "733924000442",
+  appId: "1:733924000442:web:13bcfe703fac8b9a4d7883"
+};
+const FIRESTORE_COLLECTION = 'mohr_secrets';
+
+let db = null;
+try {
+  if (FIREBASE_CONFIG.apiKey !== "PASTE_YOUR_API_KEY" && typeof firebase !== 'undefined') {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+  }
+} catch (e) {
+  console.error('Firebase init failed:', e);
+  db = null;
+}
+
+// True once a real Firebase project is wired up — this becomes the
+// top-priority storage backend, ahead of Claude's window.storage and
+// ahead of the device-only localStorage fallback, because it's the only
+// one of the three that actually works across different browsers/devices.
+function hasFirebase() {
+  return !!db;
+}
+
 // window.storage only exists inside Claude's artifact runtime.
 // When this file is downloaded and opened directly in a normal browser,
 // window.storage is undefined — we fall back to localStorage (device-only)
@@ -649,6 +691,10 @@ function isClaudeSandbox() {
 
 async function saveSecret(id, data) {
   try {
+    if (hasFirebase()) {
+      await db.collection(FIRESTORE_COLLECTION).doc(id).set(data);
+      return true;
+    }
     if (hasCloudStorage()) {
       return await window.storage.set(PREFIX + id, JSON.stringify(data), true);
     }
@@ -663,6 +709,10 @@ async function saveSecret(id, data) {
 
 async function loadSecret(id) {
   try {
+    if (hasFirebase()) {
+      const doc = await db.collection(FIRESTORE_COLLECTION).doc(id).get();
+      return doc.exists ? doc.data() : null;
+    }
     if (hasCloudStorage()) {
       const res = await window.storage.get(PREFIX + id, true);
       return res ? JSON.parse(res.value) : null;
@@ -676,6 +726,10 @@ async function loadSecret(id) {
 
 async function removeSecret(id) {
   try {
+    if (hasFirebase()) {
+      await db.collection(FIRESTORE_COLLECTION).doc(id).delete();
+      return;
+    }
     if (hasCloudStorage()) {
       await window.storage.delete(PREFIX + id, true);
     } else {
@@ -695,7 +749,7 @@ function renderCreateForm(prefill) {
   currentView = { name: 'create', prefill: prefill || null };
   titleEl.textContent = t('titleCreate');
   const sandboxed = isClaudeSandbox();
-  const unstable = !hasCloudStorage() && !hasStableOrigin();
+  const unstable = !hasFirebase() && !hasCloudStorage() && !hasStableOrigin();
   app.innerHTML = `
     ${sandboxed ? `<div class="error-msg show" style="margin-bottom:16px; line-height:1.85; color: var(--brass);">${t('sandboxWarning')}</div>` : ''}
     ${unstable ? `<div class="error-msg show" style="margin-bottom:18px; line-height:1.8;">${t('unstableWarning')}</div>` : ''}
@@ -809,7 +863,7 @@ async function onCreate() {
     errEl.classList.add('show');
     return;
   }
-  if (!hasCloudStorage() && !hasStableOrigin()) {
+  if (!hasFirebase() && !hasCloudStorage() && !hasStableOrigin()) {
     errEl.textContent = t('errContentUri');
     errEl.classList.add('show');
     return;
