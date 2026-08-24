@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<html dir="rtl" lang="fa"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>مُهر — لینک محرمانه</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --ink: #171512;
-    --ink-2: #211d18;
-    --card: #2a251f;
-    --parchment: #ece3ce;
-    --parchment-dim: #c7bba0;
-    --wax: #8c2a34;
-    --wax-light: #ad3a44;
-    --brass: #c9a15b;
-    --brass-dim: #8f7746;
-    --muted: #9c9184;
-    --danger: #c96b3d;
-    --ok: #7f9e6d;
-    --radius: 10px;
+    --ink: #0a0908;
+    --ink-2: #161412;
+    --card: rgba(30, 27, 24, 0.7);
+    --parchment: #f0e6d2;
+    --parchment-dim: #d1c5a9;
+    --wax: #9e2a2b;
+    --wax-light: #c13b3c;
+    --brass: #e0b467;
+    --brass-dim: #a38248;
+    --muted: #8b8070;
+    --danger: #d96c3a;
+    --ok: #8fb37a;
+    --radius: 14px;
+    --glow-wax: rgba(158, 42, 43, 0.4);
+    --glow-brass: rgba(224, 180, 103, 0.15);
   }
 
   * { box-sizing: border-box; }
@@ -30,65 +32,84 @@
     margin: 0;
     min-height: 100vh;
     background: var(--ink);
-    background-image:
-      radial-gradient(ellipse at 50% -10%, rgba(201,161,91,0.08), transparent 60%),
-      radial-gradient(ellipse at 90% 110%, rgba(140,42,52,0.10), transparent 55%);
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(224, 180, 103, 0.05), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(158, 42, 43, 0.08), transparent 50%),
+      url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/%3E%3C/svg%3E');
     font-family: 'Vazirmatn', sans-serif;
     color: var(--parchment);
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brass-dim), transparent);
+    opacity: 0.3;
   }
 
   body {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 32px 16px;
+    padding: 40px 16px;
+    position: relative;
+    z-index: 1;
   }
 
   .mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
 
-  .wrap { width: 100%; max-width: 440px; }
+  .wrap { width: 100%; max-width: 460px; z-index: 2; }
 
   .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     color: var(--brass);
-    font-weight: 600;
-    margin: 0 0 6px;
+    font-weight: 700;
+    margin: 0 0 8px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    text-transform: uppercase;
   }
   .eyebrow::after {
     content: "";
     flex: 1;
     height: 1px;
     background: linear-gradient(to left, var(--brass-dim), transparent);
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   h1 {
-    font-size: clamp(22px, 5vw, 28px);
-    font-weight: 800;
-    margin: 0 0 22px;
+    font-size: clamp(24px, 5.5vw, 32px);
+    font-weight: 900;
+    margin: 0 0 28px;
     color: var(--parchment);
-    line-height: 1.4;
+    line-height: 1.3;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
 
   .card {
     background: var(--card);
-    border: 1px solid rgba(201,161,91,0.28);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(224, 180, 103, 0.15);
     border-radius: var(--radius);
-    padding: 28px 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    padding: 32px 28px;
+    box-shadow: 
+      0 24px 64px -12px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      0 0 0 1px rgba(0,0,0,0.5);
     position: relative;
     overflow: hidden;
   }
   .card::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 3px 3px;
+    top: 0; left: 0; right: 0; height: 100%;
+    background: linear-gradient(180deg, rgba(224,180,103,0.03) 0%, transparent 100%);
     pointer-events: none;
   }
 
@@ -96,271 +117,353 @@
     display: block;
     font-size: 13px;
     color: var(--parchment-dim);
-    margin: 0 0 6px;
-    font-weight: 500;
+    margin: 0 0 8px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   input[type="url"], input[type="text"], input[type="password"] {
     width: 100%;
-    background: var(--ink-2);
-    border: 1px solid rgba(201,161,91,0.22);
-    border-radius: 6px;
-    padding: 11px 13px;
+    background: rgba(10, 9, 8, 0.6);
+    border: 1px solid rgba(224, 180, 103, 0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
     color: var(--parchment);
     font-family: inherit;
-    font-size: 14.5px;
+    font-size: 15px;
     outline: none;
-    transition: border-color .15s, box-shadow .15s;
+    transition: all .2s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
   }
   input::placeholder { color: var(--muted); }
   input:focus {
     border-color: var(--brass);
-    box-shadow: 0 0 0 3px rgba(201,161,91,0.15);
+    background: rgba(22, 20, 18, 0.8);
+    box-shadow: 
+      inset 0 2px 4px rgba(0,0,0,0.2),
+      0 0 0 3px var(--glow-brass);
   }
-  input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  input:focus-visible { outline: none; }
 
-  .field { margin-bottom: 16px; }
+  .field { margin-bottom: 20px; }
 
   .toggle-row {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 10px 0;
-    border-top: 1px solid rgba(201,161,91,0.12);
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(224, 180, 103, 0.08);
+    transition: background 0.2s;
+    border-radius: 6px;
   }
-  .toggle-row:first-of-type { border-top: 1px solid rgba(201,161,91,0.12); margin-top: 6px; }
+  .toggle-row:hover { background: rgba(224, 180, 103, 0.02); }
+  .toggle-row:first-of-type { border-top: 1px solid rgba(224, 180, 103, 0.08); margin-top: 8px; }
   .toggle-row input[type="checkbox"] {
     accent-color: var(--wax);
-    width: 18px; height: 18px;
+    width: 20px; height: 20px;
     margin-top: 2px;
     flex-shrink: 0;
     cursor: pointer;
+    border: 1px solid var(--brass-dim);
+    background: var(--ink);
+    border-radius: 4px;
   }
-  .toggle-row .t-label { font-size: 14.5px; font-weight: 600; color: var(--parchment); cursor: pointer; }
-  .toggle-row .t-desc { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .toggle-row .t-label { font-size: 15px; font-weight: 700; color: var(--parchment); cursor: pointer; }
+  .toggle-row .t-desc { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
   .toggle-row label.t-main { flex: 1; margin: 0; cursor: pointer; }
 
-  #passwordField { margin-top: 10px; margin-right: 28px; display: none; }
-  #passwordField.show { display: block; }
+  #passwordField { margin-top: 12px; padding-right: 32px; display: none; }
+  #passwordField.show { display: block; animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-glow {
+    0% { transform: scale(1); box-shadow: 0 6px 0 #6e1c1d, 0 12px 24px rgba(158, 42, 43, 0.4), inset 0 1px 1px rgba(255,255,255,0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 6px 0 #6e1c1d, 0 16px 32px rgba(158, 42, 43, 0.6), inset 0 1px 1px rgba(255,255,255,0.2); }
+    100% { transform: scale(1); box-shadow: 0 6px 0 #6e1c1d, 0 12px 24px rgba(158, 42, 43, 0.4), inset 0 1px 1px rgba(255,255,255,0.2); }
+  }
 
   button.seal-btn {
     width: 100%;
-    margin-top: 20px;
-    background: linear-gradient(180deg, var(--wax-light), var(--wax));
-    border: 1px solid rgba(0,0,0,0.25);
+    margin-top: 24px;
+    background: linear-gradient(135deg, var(--wax-light), var(--wax));
+    border: 1px solid rgba(0,0,0,0.4);
     color: var(--parchment);
     font-family: inherit;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 13px;
-    border-radius: 999px;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 10px 20px rgba(140,42,52,0.25);
-    transition: transform .12s, box-shadow .12s;
-    letter-spacing: 0.01em;
+    box-shadow: 
+      0 6px 0 #6e1c1d, 
+      0 12px 24px var(--glow-wax),
+      inset 0 1px 1px rgba(255,255,255,0.2);
+    transition: all .15s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    animation: pulse-glow 3s infinite ease-in-out;
   }
-  button.seal-btn:hover { filter: brightness(1.06); }
+  button.seal-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: .5s;
+  }
+  button.seal-btn:hover { filter: brightness(1.1); transform: scale(1.02) translateY(-1px); animation: none; }
+  button.seal-btn:hover::after { left: 150%; }
   button.seal-btn:active, button.seal-btn.pressed {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 4px 10px rgba(140,42,52,0.2);
+    transform: scale(0.96) translateY(6px);
+    box-shadow: 
+      0 0 0 #6e1c1d, 
+      0 4px 12px rgba(158, 42, 43, 0.3),
+      inset 0 2px 4px rgba(0,0,0,0.3);
+    animation: none;
   }
-  button.seal-btn:disabled { opacity: 0.6; cursor: default; }
-  button.seal-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+  button.seal-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: 0 6px 0 #6e1c1d; animation: none; }
+  button.seal-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--brass), 0 6px 0 #6e1c1d; }
 
   button.ghost-btn {
-    background: transparent;
-    border: 1px solid rgba(201,161,91,0.4);
+    background: rgba(224, 180, 103, 0.05);
+    border: 1px solid rgba(224, 180, 103, 0.25);
     color: var(--brass);
     font-family: inherit;
     font-weight: 600;
-    font-size: 13.5px;
-    padding: 9px 16px;
-    border-radius: 999px;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background .15s;
+    transition: all .2s;
+    backdrop-filter: blur(4px);
   }
-  button.ghost-btn:hover { background: rgba(201,161,91,0.1); }
-  button.ghost-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  button.ghost-btn:hover { background: rgba(224, 180, 103, 0.12); border-color: var(--brass-dim); }
+  button.ghost-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--glow-brass); }
 
   .error-msg {
     color: var(--danger);
-    font-size: 13px;
-    margin-top: 10px;
+    font-size: 13.5px;
+    margin-top: 12px;
     display: none;
+    background: rgba(217, 108, 58, 0.1);
+    border: 1px solid rgba(217, 108, 58, 0.2);
+    padding: 10px 14px;
+    border-radius: 8px;
   }
-  .error-msg.show { display: block; }
+  .error-msg.show { display: block; animation: fadeIn 0.3s; }
+  
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .hint {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--muted);
-    margin-top: 18px;
-    line-height: 1.7;
-    border-top: 1px solid rgba(201,161,91,0.12);
-    padding-top: 14px;
+    margin-top: 24px;
+    line-height: 1.8;
+    border-top: 1px solid rgba(224, 180, 103, 0.08);
+    padding-top: 18px;
+    text-align: justify;
   }
 
   /* result / ticket */
   .ticket {
-    background: var(--ink-2);
-    border: 1px dashed rgba(201,161,91,0.45);
-    border-radius: 6px;
-    padding: 14px;
-    margin: 4px 0 16px;
+    background: rgba(10, 9, 8, 0.7);
+    border: 1px dashed rgba(224, 180, 103, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 8px 0 20px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    position: relative;
   }
-  .ticket .ticket-label { font-size: 11.5px; color: var(--muted); margin-bottom: 6px; letter-spacing: .04em; }
+  .ticket::before, .ticket::after {
+    content: ''; position: absolute; top: 50%; width: 12px; height: 12px;
+    background: var(--card); border-radius: 50%; border: 1px solid rgba(224,180,103,0.15);
+    transform: translateY(-50%);
+  }
+  .ticket::before { right: -6px; border-left: none; }
+  .ticket::after { left: -6px; border-right: none; }
+  
+  .ticket .ticket-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing: .06em; font-weight: 600; text-transform: uppercase; }
   .ticket .ticket-link {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--brass);
     word-break: break-all;
+    line-height: 1.5;
   }
 
   .copy-row { display: flex; gap: 8px; }
   .copy-row button { flex-shrink: 0; }
 
-  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .badge-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
   .badge {
-    font-size: 11.5px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(201,161,91,0.35);
-    color: var(--brass-dim);
-    background: rgba(201,161,91,0.06);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(224, 180, 103, 0.2);
+    color: var(--brass);
+    background: rgba(224, 180, 103, 0.08);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
   /* seal emblem for reveal view */
   .seal-emblem {
-    width: 88px; height: 88px;
-    margin: 4px auto 18px;
+    width: 96px; height: 96px;
+    margin: 8px auto 24px;
     border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, var(--wax-light), var(--wax) 70%);
-    border: 2px solid rgba(201,161,91,0.5);
+    background: radial-gradient(circle at 30% 30%, var(--wax-light), var(--wax) 75%);
+    border: 2px solid rgba(224, 180, 103, 0.4);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 10px 24px rgba(140,42,52,0.35), inset 0 -6px 10px rgba(0,0,0,0.25);
-    transition: transform .5s cubic-bezier(.4,0,.2,1), opacity .5s;
+    box-shadow: 
+      0 12px 32px var(--glow-wax), 
+      inset 0 -6px 12px rgba(0,0,0,0.4),
+      inset 0 2px 4px rgba(255,255,255,0.2);
+    transition: transform .6s cubic-bezier(.34,1.56,.64,1), opacity .5s;
+    position: relative;
   }
-  .seal-emblem.cracked { transform: scale(1.15) rotate(8deg); opacity: 0; }
-  .seal-emblem svg { width: 34px; height: 34px; opacity: 0.9; }
+  .seal-emblem::after {
+    content: ''; position: absolute; inset: -8px; border-radius: 50%;
+    border: 1px dashed rgba(224,180,103,0.2); animation: spinSlow 20s linear infinite;
+  }
+  @keyframes spinSlow { to { transform: rotate(360deg); } }
+  
+  .seal-emblem.cracked { transform: scale(1.1) rotate(12deg); opacity: 0; filter: blur(4px); }
+  .seal-emblem svg { width: 38px; height: 38px; opacity: 0.95; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4)); }
 
   .center { text-align: center; }
 
   .reveal-url {
-    background: var(--ink-2);
-    border: 1px solid rgba(127,158,109,0.4);
-    border-radius: 6px;
-    padding: 14px;
+    background: rgba(10, 9, 8, 0.7);
+    border: 1px solid rgba(143, 179, 122, 0.3);
+    border-radius: 8px;
+    padding: 16px;
     word-break: break-all;
-    font-size: 14px;
-    margin-bottom: 14px;
+    font-size: 15px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
   }
-  .reveal-url a { color: var(--ok); text-decoration: none; font-weight: 600; }
-  .reveal-url a:hover { text-decoration: underline; }
+  .reveal-url a { color: var(--ok); text-decoration: none; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+  .reveal-url a:hover { text-decoration: underline; color: #a4c98f; }
 
-  .status-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+  .status-note { font-size: 13.5px; color: var(--muted); margin-top: 12px; line-height: 1.7; }
 
   .loader {
-    width: 22px; height: 22px;
-    border: 2.5px solid rgba(201,161,91,0.25);
+    width: 28px; height: 28px;
+    border: 3px solid rgba(224, 180, 103, 0.15);
     border-top-color: var(--brass);
     border-radius: 50%;
-    margin: 20px auto;
-    animation: spin 0.8s linear infinite;
+    margin: 30px auto;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
+    .seal-emblem::after { animation: none; }
   }
 
   @media (max-width: 420px) {
-    .card { padding: 22px 18px; }
+    .card { padding: 24px 20px; }
   }
 
   .top-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 4px;
+    gap: 16px;
+    margin-bottom: 8px;
   }
   .top-row .eyebrow { flex: 1; margin: 0; }
 
   button.lang-btn {
     flex-shrink: 0;
-    background: transparent;
-    border: 1px solid rgba(201,161,91,0.4);
+    background: rgba(224, 180, 103, 0.05);
+    border: 1px solid rgba(224, 180, 103, 0.2);
     color: var(--brass);
     font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 12px;
-    padding: 6px 13px;
-    border-radius: 999px;
+    padding: 6px 14px;
+    border-radius: 6px;
     cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: background .15s;
+    letter-spacing: 0.1em;
+    transition: all .2s;
+    backdrop-filter: blur(4px);
   }
-  button.lang-btn:hover { background: rgba(201,161,91,0.1); }
-  button.lang-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+  button.lang-btn:hover { background: rgba(224, 180, 103, 0.15); border-color: var(--brass-dim); }
+  button.lang-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--glow-brass); }
 
   .credits {
-    margin-top: 22px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(201,161,91,0.15);
-    font-size: 12px;
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: rgba(10, 9, 8, 0.4);
+    border: 1px solid rgba(224, 180, 103, 0.05);
+    border-radius: 12px;
+    font-size: 12.5px;
     color: var(--muted);
-    line-height: 1.9;
+    line-height: 1.8;
+    text-align: center;
   }
   .credits-title {
     font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.15em;
     color: var(--brass-dim);
-    margin-bottom: 8px;
-    font-weight: 600;
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
-  .credits-row { margin-bottom: 6px; }
+  .credits-row { margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  @media(min-width: 400px) {
+    .credits-row { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 12px; }
+  }
   .credits-row .credits-name {
     color: var(--parchment-dim);
     font-weight: 600;
-    margin-inline-end: 10px;
   }
   .credits-row a {
     color: var(--brass);
     text-decoration: none;
-    margin-inline-end: 12px;
     display: inline-block;
+    opacity: 0.8;
+    transition: opacity 0.2s;
   }
-  .credits-row a:hover { text-decoration: underline; }
-  .credits-desc { color: var(--muted); }
+  .credits-row a:hover { text-decoration: underline; opacity: 1; }
+  .credits-desc { color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top-row">
-      <div class="eyebrow" id="eyebrowText">ابزار لینک محرمانه</div>
-      <button type="button" class="lang-btn" id="langToggle">EN</button>
-    </div>
-    <h1 id="pageTitle">لینکت رو مُهر و موم کن</h1>
-    <div class="card" id="app"></div>
-
-    <div class="credits" id="creditsBox">
-      <div class="credits-title" id="creditsTitle">سازندگان و تماس</div>
-      <div class="credits-row">
-        <span class="credits-name">Offers Pishnahadat</span>
-        <a href="mailto:Offerspishnahadat.feedback@gmail.com">Offerspishnahadat.feedback@gmail.com</a>
-        <a href="https://www.youtube.com/@offers_pishnahadat" target="_blank" rel="noopener noreferrer">YouTube: @offers_pishnahadat</a>
-        <a href="https://zaya.io/offers_pishnahadat" target="_blank" rel="noopener noreferrer">zaya.io/offers_pishnahadat</a>
-      </div>
-      <div class="credits-row">
-        <span class="credits-name">Claude (Anthropic)</span>
-        <span class="credits-desc" id="creditsClaudeDesc">دستیار هوش مصنوعی که در طراحی و کدنویسی این ابزار همکاری کرد</span>
-      </div>
-    </div>
-  </div>
-
+<div class="wrap">
+<div class="top-row">
+<div class="eyebrow" id="eyebrowText">ابزار لینک محرمانه</div>
+<button class="lang-btn" id="langToggle" type="button">EN</button>
+</div>
+<h1 id="pageTitle">لینکت رو مُهر و موم کن</h1>
+<div class="card" id="app"></div>
+<div class="credits" id="creditsBox">
+<div class="credits-title" id="creditsTitle">سازندگان و تماس</div>
+<div class="credits-row">
+<span class="credits-name">Offers Pishnahadat</span>
+</div>
+<div class="credits-row" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px;">
+<a href="mailto:Offerspishnahadat.feedback@gmail.com">Email</a>
+<span>•</span>
+<a href="https://www.youtube.com/@offers_pishnahadat" rel="noopener noreferrer" target="_blank">YouTube</a>
+<span>•</span>
+<a href="https://zaya.io/offers_pishnahadat" rel="noopener noreferrer" target="_blank">zaya.io</a>
+</div>
+<div class="credits-row" style="margin-top: 12px;">
+<span class="credits-desc" id="creditsClaudeDesc">با همکاری Claude (Anthropic)</span>
+</div>
+</div>
+</div>
 <!-- Firebase (real, cross-browser/cross-device storage). Safe to load even
      before FIREBASE_CONFIG below is filled in — the app just won't use it
      until then. -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
-
 <script>
 const PREFIX = 'mohr:';
 const ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789';
@@ -444,7 +547,7 @@ const STRINGS = {
     staysNote: 'این لینک همچنان معتبر می‌مونه و می‌شه دوباره بازش کرد.',
 
     creditsTitle: 'سازندگان و تماس',
-    creditsClaudeDesc: 'دستیار هوش مصنوعی که در طراحی و کدنویسی این ابزار همکاری کرد'
+    creditsClaudeDesc: 'با همکاری Claude (Anthropic)'
   },
   en: {
     dir: 'ltr',
@@ -521,7 +624,7 @@ const STRINGS = {
     staysNote: 'This link stays valid and can be opened again.',
 
     creditsTitle: 'Creators & Contact',
-    creditsClaudeDesc: 'AI assistant that helped design and build this tool'
+    creditsClaudeDesc: 'Built with Claude (Anthropic)'
   }
 };
 
@@ -814,8 +917,8 @@ function renderCreateForm(prefill) {
   const sandboxed = isClaudeSandbox();
   const unstable = !hasGitHub() && !hasFirebase() && !hasCloudStorage() && !hasStableOrigin();
   app.innerHTML = `
-    ${sandboxed ? `<div class="error-msg show" style="margin-bottom:16px; line-height:1.85; color: var(--brass);">${t('sandboxWarning')}</div>` : ''}
-    ${unstable ? `<div class="error-msg show" style="margin-bottom:18px; line-height:1.8;">${t('unstableWarning')}</div>` : ''}
+    ${sandboxed ? `<div class="error-msg show" style="margin-bottom:20px; line-height:1.85; color: var(--brass); background: rgba(224,180,103,0.1); border-color: rgba(224,180,103,0.2);">${t('sandboxWarning')}</div>` : ''}
+    ${unstable ? `<div class="error-msg show" style="margin-bottom:20px; line-height:1.8;">${t('unstableWarning')}</div>` : ''}
     <div class="field">
       <label for="destUrl">${t('destLabel')}</label>
       <input type="url" id="destUrl" placeholder="${t('destPlaceholder')}" autocomplete="off">
@@ -847,12 +950,12 @@ function renderCreateForm(prefill) {
 
     <div class="hint">${t('formHint')}</div>
 
-    <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(201,161,91,0.12);">
+    <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(224, 180, 103, 0.08);">
       <button type="button" class="ghost-btn" id="haveCodeBtn" style="width:100%;">${t('haveCodeBtn')}</button>
-      <div id="haveCodeBox" style="display:none; margin-top:10px;">
+      <div id="haveCodeBox" style="display:none; margin-top:12px;">
         <input type="text" id="haveCodeInput" class="mono" placeholder="${t('haveCodePlaceholder')}" autocomplete="off"
-          style="width:100%; box-sizing:border-box; background:var(--ink-2); border:1px solid rgba(201,161,91,0.22); border-radius:6px; padding:11px 13px; color:var(--parchment); font-size:14.5px; outline:none;">
-        <button type="button" class="seal-btn" id="haveCodeSubmit" style="margin-top:10px;">${t('haveCodeSubmit')}</button>
+          style="width:100%; box-sizing:border-box;">
+        <button type="button" class="ghost-btn" id="haveCodeSubmit" style="width: 100%; margin-top:12px; background: rgba(10,9,8,0.5);">${t('haveCodeSubmit')}</button>
         <div class="error-msg" id="haveCodeError"></div>
       </div>
     </div>
@@ -1011,10 +1114,10 @@ function renderResult(id, data) {
     ${sandboxed ? `
     <div class="ticket">
       <div class="ticket-label">${t('codeLabel')}</div>
-      <div class="ticket-link mono" id="linkText" style="font-size:19px; letter-spacing:2px; text-align:center;">${id}</div>
+      <div class="ticket-link mono" id="linkText" style="font-size:22px; letter-spacing:4px; text-align:center; font-weight: 600;">${id}</div>
     </div>
     <div class="copy-row">
-      <button class="seal-btn" id="copyBtn" style="flex:1">${t('copyCode')}</button>
+      <button class="seal-btn" id="copyBtn" style="flex:1; margin-top: 8px;">${t('copyCode')}</button>
     </div>
     <div class="hint">
       ${t('hintSandbox')}${data.oneTime ? t('hintOneTimeExtra') : ''}${isProtected(data) ? t('hintPwExtra') : ''}
@@ -1025,11 +1128,11 @@ function renderResult(id, data) {
       <div class="ticket-link mono" id="linkText">${link}</div>
     </div>
     <div class="copy-row">
-      <button class="seal-btn" id="copyBtn" style="flex:1">${t('copyLink')}</button>
+      <button class="seal-btn" id="copyBtn" style="flex:1; margin-top: 8px;">${t('copyLink')}</button>
     </div>
     <div class="hint">${usedLocalFallback ? t('hintLocalFallback') : `${t('hintNormalPrefix')} ${data.oneTime ? t('hintNormalOneTime') : ''} ${isProtected(data) ? t('hintNormalPw') : ''}`}</div>
     `}
-    <div style="margin-top:14px; text-align:center;">
+    <div style="margin-top:20px; text-align:center;">
       <button class="ghost-btn" id="newLinkBtn">${t('newLinkBtn')}</button>
     </div>
   `;
@@ -1068,10 +1171,10 @@ async function renderRevealView(id) {
     currentView = { name: 'notFound' };
     app.innerHTML = `
       <div class="center">
-        <div class="seal-emblem" style="opacity:.4">${sealSvg()}</div>
-        <p style="font-weight:700; margin-bottom:6px;">${t('notFoundTitle')}</p>
+        <div class="seal-emblem" style="opacity:.3; box-shadow: none; filter: grayscale(1); border-color: rgba(224, 180, 103, 0.2);">${sealSvg()}</div>
+        <p style="font-weight:800; font-size: 18px; margin-bottom:8px;">${t('notFoundTitle')}</p>
         <p class="status-note">${t('notFoundDesc')}</p>
-        <div style="margin-top:18px;">
+        <div style="margin-top:24px;">
           <button class="ghost-btn" id="goCreate">${t('createNewBtn')}</button>
         </div>
       </div>
@@ -1096,8 +1199,8 @@ function renderOpenPrompt(id, data) {
   app.innerHTML = `
     <div class="center">
       <div class="seal-emblem" id="emblem">${sealSvg()}</div>
-      <p style="font-weight:700; margin-bottom:6px;">${t('openPromptTitle')}</p>
-      <p class="status-note" style="margin-bottom:16px;">${data.oneTime ? t('openPromptOneTime') : t('openPromptNormal')}</p>
+      <p style="font-weight:800; font-size: 18px; margin-bottom:8px;">${t('openPromptTitle')}</p>
+      <p class="status-note" style="margin-bottom:24px;">${data.oneTime ? t('openPromptOneTime') : t('openPromptNormal')}</p>
       <button class="seal-btn" id="breakBtn">${t('breakBtn')}</button>
     </div>
   `;
@@ -1110,13 +1213,13 @@ function renderPasswordGate(id, data) {
   app.innerHTML = `
     <div class="center">
       <div class="seal-emblem" id="emblem">${sealSvg()}</div>
-      <p style="font-weight:700; margin-bottom:4px;">${t('pwGateTitle')}</p>
-      <p class="status-note" style="margin-bottom:14px;">${t('pwGateDesc')}</p>
+      <p style="font-weight:800; font-size: 18px; margin-bottom:6px;">${t('pwGateTitle')}</p>
+      <p class="status-note" style="margin-bottom:20px;">${t('pwGateDesc')}</p>
     </div>
     <div class="field" style="text-align:right">
       <input type="password" id="pwGateInput" placeholder="${t('pwGatePlaceholder')}">
     </div>
-    <button class="seal-btn" id="unlockBtn">${t('unlockBtn')}</button>
+    <button class="seal-btn" id="unlockBtn" style="margin-top: 8px;">${t('unlockBtn')}</button>
     <div class="error-msg" id="pwError"></div>
   `;
 
@@ -1161,19 +1264,19 @@ async function openSecret(id, data) {
 
   setTimeout(() => {
     renderOpenedScreen(data);
-  }, 350);
+  }, 450);
 }
 
 function renderOpenedScreen(data) {
   currentView = { name: 'opened', data };
   titleEl.textContent = t('titleReveal');
   app.innerHTML = `
-    <p style="font-weight:700; margin-bottom:10px;">${t('brokenTitle')}</p>
-    <div class="reveal-url mono">
+    <p style="font-weight:800; font-size: 18px; margin-bottom:16px; text-align: center;">${t('brokenTitle')}</p>
+    <div class="reveal-url mono" style="text-align: center;">
       <a href="${data.url}" target="_blank" rel="noopener noreferrer">${data.url}</a>
     </div>
     <button class="seal-btn" id="goBtn">${t('goBtn')}</button>
-    <div class="status-note">${data.oneTime ? t('goneNote') : t('staysNote')}</div>
+    <div class="status-note" style="text-align: center; margin-top: 16px;">${data.oneTime ? t('goneNote') : t('staysNote')}</div>
   `;
   document.getElementById('goBtn').addEventListener('click', () => {
     window.open(data.url, '_blank', 'noopener,noreferrer');
@@ -1182,8 +1285,8 @@ function renderOpenedScreen(data) {
 
 function sealSvg() {
   return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2L3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7l-9-5z" stroke="#ece3ce" stroke-width="1.4" stroke-linejoin="round"/>
-    <path d="M9 12l2 2 4-4" stroke="#ece3ce" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 2L3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7l-9-5z" stroke="#f0e6d2" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M9 12l2 2 4-4" stroke="#f0e6d2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
 }
 
@@ -1199,10 +1302,10 @@ function rerenderCurrentView() {
     titleEl.textContent = t('titleReveal');
     app.innerHTML = `
       <div class="center">
-        <div class="seal-emblem" style="opacity:.4">${sealSvg()}</div>
-        <p style="font-weight:700; margin-bottom:6px;">${t('notFoundTitle')}</p>
+        <div class="seal-emblem" style="opacity:.3; box-shadow: none; filter: grayscale(1); border-color: rgba(224, 180, 103, 0.2);">${sealSvg()}</div>
+        <p style="font-weight:800; font-size: 18px; margin-bottom:8px;">${t('notFoundTitle')}</p>
         <p class="status-note">${t('notFoundDesc')}</p>
-        <div style="margin-top:18px;">
+        <div style="margin-top:24px;">
           <button class="ghost-btn" id="goCreate">${t('createNewBtn')}</button>
         </div>
       </div>
@@ -1253,5 +1356,4 @@ document.getElementById('langToggle').addEventListener('click', () => {
   }
 })();
 </script>
-</body>
-</html>
+</body></html>
