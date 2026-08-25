@@ -858,6 +858,7 @@ async function loadSecret(id) {
   try {
     if (hasGitHub()) {
       const res = await fetch('https://api.github.com/gists/' + id, {
+        cache: 'no-store',
         headers: { 'Accept': 'application/vnd.github+json' }
       });
       if (!res.ok) return null;
