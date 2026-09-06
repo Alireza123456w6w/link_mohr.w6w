@@ -16,7 +16,7 @@
 **Mohr** is a modern and secure web tool for creating and sharing confidential links, powered by **Cloudflare Workers** and **Cloudflare D1**, with advanced AES-256 encryption and one-time access features.
 
 لینک صفحه برای استفاده:
-🌐 https://alireza123456w6w.github.io/link_mohr.w6w/
+🌐 https://alireza123456w6w.github.io/link_mohr.w6w
 
 مخزن گیت‌هاب:
 💻 https://github.com/Alireza123456w6w/link_mohr.w6w
@@ -26,7 +26,7 @@
 ### ✨ ویژگی‌های اصلی | Key Features
 
 - 🔐 **رمزنگاری AES-256-GCM** با اشتقاق کلید PBKDF2-SHA256 (۱۵۰,۰۰۰ تکرار)
-  - **AES-256-GCM Encryption** with PBKDF2-SHA256 key derivation (150,000 iterations)
+  - **AES-256-GCM Encryption** with PBKDF2-SHA256 key derivation (100,000 iterations)
 
 - 🔄 **استفادهٔ یک‌بار** — لینک بعد از اولین باز شدن خودکار پاک می‌شود
   - **One-Time Use** — Link automatically deletes itself after first access
