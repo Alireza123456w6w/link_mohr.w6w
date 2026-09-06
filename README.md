@@ -1,331 +1,84 @@
-# 📜 مُهر — ابزار لینک محرمانه
-## 🔐 Secret Link Tool
+# مهاجرت «مُهر» از GitHub Gist/Firebase به Cloudflare D1
 
-![License](https://img.shields.io/badge/License-MIT-green)
-![Language](https://img.shields.io/badge/Language-HTML%2FCSS%2FJS-blue)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
-![Firebase](https://img.shields.io/badge/Database-Firebase-orange)
+## 🚨 اول از همه: این کار فوریه
 
----
+فایل `auth.js` قدیمیت یه GitHub Token واقعی و فعال داخلش داشت که توی یه ریپوی عمومی (یا صفحهٔ عمومی GitHub Pages) منتشر شده بود — یعنی هر کسی می‌تونست کد صفحه رو ببینه و اون توکن رو برداره. با اینکه اسکوپش فقط روی Gist بوده (نمی‌تونه به ریپوهات دست بزنه)، بازم با اون توکن می‌شد هر کدوم از Gistهای اکانتت (نه فقط مال این پروژه) رو خوند/تغییر داد/حذف کرد.
 
-## 🎯 درباره پروژه | About
+**همین الان برو و توکن رو باطل کن:**
+1. برو به [github.com/settings/tokens](https://github.com/settings/tokens)
+2. دنبال توکنی بگرد که با `ghp_...MPzznBr...` شروع می‌شه
+3. بزن **Delete** (یا Revoke)
 
-**مُهر** یک ابزار وب مدرن و ایمن برای ایجاد و اشتراک‌گذاری لینک‌های محرمانه است که از **Firebase** برای ذخیره‌سازی ابری استفاده می‌کند.
-
-**Mohr** is a modern and secure web tool for creating and sharing confidential links with Firebase cloud storage, advanced AES-256 encryption, and one-time access features.
-
-لینک صفحه برای استفاده: 
-🌐 https://alireza123456w6w.github.io/link_mohr.w6w/
-
-### ✨ ویژگی‌های اصلی | Key Features
-
-- 🔐 **رمزنگاری AES-256** — تمام لینک‌های محرمانه با رمز بندی می‌شوند
-  - **AES-256 Encryption** — All secret links are encrypted with strong cryptography
-  
-- 🔄 **استفادهٔ یک‌بار** — لینک بعد از اولین باز شدن خودکار پاک می‌شود
-  - **One-Time Use** — Link automatically expires after first access
-  
-- 🌐 **پشتیبانی دوزبانه** (فارسی و انگلیسی) + سایر زبان‌ها
-  - **Multi-Language Support** (Persian, English, Turkish, Arabic)
-  
-- 📱 **Responsive Design** — کار می‌کند روی تمام دستگاه‌ها
-  - Works perfectly on desktop, tablet, and mobile devices
-  
-- ☁️ **ذخیره‌سازی ابری (Firebase Firestore)**
-  - **Cross-Device Support** — Share links across different browsers and devices
-  - **Real-time Database** — Instant sync across all users
-  - **Fallback Storage** — LocalStorage for offline compatibility
-  
-- 🎨 **طراحی شیک و حرفه‌ای**
-  - Beautiful wax-seal themed UI with smooth animations
-  
-- 🔒 **رمز هرگز ذخیره نمی‌شود**
-  - Passwords are only used for encryption, never stored
+این کار مستقل از بقیهٔ این راهنماست — حتی اگه فردا Worker رو دیپلوی نکنی، همین الان این توکن رو باطل کن.
 
 ---
 
-## 🚀 شروع سریع | Quick Start
+## چی عوض شد؟
 
-### روش 1: استفاده مستقیم (بهترین برای استفاده همگانی)
-1. فایل `index.html` را دانلود کنید
-2. آن را در مرورگر باز کنید
-3. برای ایجاد لینک محرمانه شروع کنید!
-4. لینک تولید شده را با هرکسی شریک کنید
+سه فایل از پروژه‌ت ویرایش شدن تا به‌جای GitHub Gist / Firebase، از یه Worker اختصاصی + دیتابیس D1 استفاده کنن:
 
-### روش 2: استفاده در Claude
-1. کد `index.html` را کپی کنید
-2. در Claude یک **Artifact** جدید ایجاد کنید
-3. کد را وارد کنید و **Publish** کنید
-4. لینک Artifact را با دوستان شریک کنید
+- **`index.html`** — ابزار اصلی ساخت/باز کردن لینک محرمانه (بدون نیاز به لاگین)
+- **`auth.js`** — ورود/ثبت‌نام/session (رمزنگاری پسورد حالا سمت سرور انجام می‌شه، نه توی مرورگر)
+- **`dashboard.html`** — لیست لینک‌های خودت و (برای ادمین) لیست همهٔ لینک‌های متصل به حساب‌ها
 
-### روش 3: میزبانی روی وب
-```bash
-# هر سرور وب ساده‌ای می‌تواند این فایل را serve کند
-python -m http.server 8000
-# یا
-npx http-server
+**`login.html` و `signup.html` نیازی به تغییر ندارن** — همون‌طوری که هستن بمونن.
+
+رمزنگاری AES-256 لینک‌ها هنوز کاملاً سمت مرورگر انجام می‌شه (zero-knowledge) — این بخش دست نخورده. فقط جایی که قبلاً داده روی Gist/Firebase ذخیره می‌شد، حالا میره روی D1.
+
+**یه تغییر کوچیک رفتاری:** قبلاً وقتی یه لینک یک‌بارمصرف مصرف می‌شد، توی داشبورد یه ردیف خاکستری «قبلاً استفاده شده» با دکمهٔ «حذف از لیست» نشونت می‌داد. الان چون واقعاً از دیتابیس پاک می‌شه، همون لحظه از کل لیست غیب می‌شه — نتیجهٔ نهایی یکیه، فقط یه قدم کمتر داره.
+
+---
+
+## مرحله ۱: ساخت دیتابیس D1
+
+توی `dash.cloudflare.com`:
+- **Workers & Pages → D1 → Create database**
+- اسمش رو `mohr-db` بذار
+- برو تب **Console** همون دیتابیس، محتوای فایل `schema.sql` رو (جمله‌جمله، هر `CREATE TABLE`/`CREATE INDEX` رو جدا) پیست و Execute کن
+
+## مرحله ۲: ساخت Worker
+
+- **Workers & Pages → Create application → Create Worker**
+- اسمش رو `mohr-backend` بذار، Deploy کن
+- **Edit code** رو بزن، کل کد پیش‌فرض رو پاک کن، محتوای فایل `src/index.js` رو جایگزینش کن
+- **Save and Deploy**
+
+## مرحله ۳: وصل کردن دیتابیس
+
+- توی صفحهٔ همون Worker: **Settings → Bindings → Add binding → D1 database**
+- Variable name: دقیقاً `DB`
+- دیتابیس: `mohr-db`
+
+## مرحله ۴: تنظیم آدرس مجاز (CORS)
+
+توی فایل `src/index.js` که پیست کردی، این خط بالای فایله:
+```js
+const ALLOWED_ORIGIN = "https://alireza123456w6w.github.io";
+```
+اگه آدرس واقعی سایتت (پروتکل + دامنه، بدون مسیر بعدش) با این فرق داره، همینجا توی ویرایشگر Worker عوضش کن و دوباره Deploy بزن.
+
+## مرحله ۵: آپدیت آدرس Worker در فایل‌های سایت
+
+بعد از دیپلوی Worker یه آدرس می‌گیری، چیزی مثل:
+```
+https://mohr-backend.YOUR-SUBDOMAIN.workers.dev
 ```
 
----
+این آدرس رو باید توی **دو جا** جایگزین کنی (هر دو فایل توی همین پکیج آماده‌ن، فقط کافیه این خط رو توشون پیدا و ویرایش کنی):
 
-## 📖 راهنمای استفاده | How to Use
+- `index.html` — خط `const API_BASE = "https://PUT-YOUR-WORKER-URL-HERE.workers.dev";`
+- `auth.js` — همون خط، همون مقدار
 
-### ساخت لینک محرمانه | Creating a Secret Link
+## مرحله ۶: آپلود روی GitHub
 
-1. **آدرس مقصد را وارد کنید**
-   - Enter the destination URL you want to hide
+فایل‌های `index.html`، `auth.js`، `dashboard.html` رو (با مقادیر آپدیت‌شدهٔ `API_BASE`) جایگزین نسخه‌های قدیمی توی ریپوی `link_mohr.w6w` کن. `login.html` و `signup.html` رو دست نزن.
 
-2. **گزینه‌ها را انتخاب کنید:**
-   - ✅ استفادهٔ یک‌بار (One-Time Use)
-   - ✅ محافظت با رمز (Password Protection)
+## مرحله ۷: ساختن اکانت ادمین
 
-3. **دکمهٔ "مُهر و موم کن" را بزنید**
-   - Click "Seal it"
+بعد از اینکه یه‌بار با یوزرنیم خودت ثبت‌نام کردی، برو تب **Console** دیتابیس `mohr-db` و این رو اجرا کن (به‌جای `یوزرنیمت` اسم واقعیتو بذار):
 
-4. **کد یا لینک را کپی کنید**
-   - برای محیط Claude: کد رو بفرستید
-   - برای وب: لینک کامل رو بفرستید
-
-### باز کردن لینک محرمانه | Opening a Secret Link
-
-1. **صفحهٔ ابزار رو باز کنید**
-2. **دکمهٔ "کد یه لینک رو داری؟" را بزنید**
-3. **کد یا لینک رو پیست کنید**
-4. **رمز رو وارد کنید (اگر رمزدار بود)**
-5. **لینک رو باز کنید**
-
----
-
-## 🌍 استفاده همگانی | Global Usage
-
-### چگونه لینک‌ها بین کاربران مشترک می‌شوند؟
-
-```
-┌─────────────────────────────────────────────┐
-│   کاربر A: ایجاد لینک محرمانه             │
-│   ➜ data + encryption → Firebase           │
-└────────────────┬────────────────────────────┘
-                 │
-          ☁️ Firebase Firestore
-          (mohr_secrets collection)
-                 │
-┌────────────────▼────────────────────────────┐
-│   کاربر B: باز کردن لینک (دستگاه دیگر)    │
-│   ➜ Firebase ← data + decryption           │
-└─────────────────────────────────────────────┘
+```sql
+UPDATE users SET is_admin = 1 WHERE username = 'یوزرنیمت';
 ```
 
-### ویژگی‌های Firebase:
-
-- **Global Access** — لینک‌ها در تمام مرورگرها و دستگاه‌ها قابل دسترسی هستند
-- **Real-time Sync** — اطلاعات فوری بروز می‌شوند
-- **Secure Rules** — فایربیس Rules حفاظت می‌کند
-- **One-time Deletion** — لینک‌های یک‌بار مصرف خودکار حذف می‌شوند
-
----
-
-## 🔐 امنیت | Security Details
-
-### رمزنگاری
-```javascript
-// PBKDF2-SHA256 برای مشتق کردن کلید
-// 150,000 iterations برای محافظت در برابر brute-force
-// AES-256-GCM برای رمزنگاری و تأیید هویت
-// Unique salt و IV برای هر لینک
-```
-
-### نکات مهم ⚠️
-- رمز **هرگز** ذخیره نمی‌شود — فقط برای رمزنگاری استفاده می‌شود
-- اگر رمز اشتباه وارد شود، رمزگشایی خودکار ناموفق است
-- داده‌ها در Firebase با encryption ذخیره می‌شوند
-- هیچ log سروری وجود ندارد
-
-### محدودیت‌ها
-- برای اطلاعات **فوق‌حساس** (رمز‌های بانکی، SSN) توصیه نمی‌شود
-- بهترین برای: لینک‌های فناوری، فایل‌ها، و محتوای عمومی حساس
-
----
-
-## ⚙️ Firebase Configuration
-
-### اطلاعات Firebase:
-
-```javascript
-Project ID: mohr-link
-Collection: mohr_secrets
-```
-
-### Firebase Firestore Rules (مثال):
-
-```firestore
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /mohr_secrets/{secretId} {
-      allow read, write: if true;  // Adjust based on your needs
-      allow delete: if true;
-    }
-  }
-}
-```
-
-### نحوهٔ تنظیم Firebase برای خودتان:
-
-1. رفتید به [Firebase Console](https://console.firebase.google.com/)
-2. پروژهٔ جدید بسازید
-3. Firestore Database ایجاد کنید
-4. `FIREBASE_CONFIG` را در `index.html` تغییر دهید
-
----
-
-## 🎨 طراحی | Design System
-
-### رنگ‌ها | Colors
-```css
---ink: #171512              /* پس‌زمینهٔ تیره */
---brass: #c9a15b            /* برنج (رنگ اصلی) */
---wax: #8c2a34              /* موم (دکمه‌ها) */
---parchment: #ece3ce        /* پرژه (متن) */
---danger: #c96b3d           /* قرمز (خطا‌ها) */
---ok: #7f9e6d               /* سبز (لینک صحیح) */
-```
-
-### فونت‌ها | Fonts
-- **متن اصلی:** Vazirmatn (فارسی)
-- **کد:** IBM Plex Mono
-
----
-
-## 📱 Responsive Breakpoints
-
-| دستگاه | عرض | وضعیت |
-|--------|------|--------|
-| موبایل | < 420px | ✅ بهینه‌شده |
-| تبلت | 420px - 768px | ✅ بهینه‌شده |
-| کامپیوتر | > 768px | ✅ بهینه‌شده |
-
----
-
-## 🛠️ ساختار پروژه | Project Structure
-
-```
-index.html              # تمام کد (HTML + CSS + JS)
-README.md              # این فایل
-```
-
-### سازماندهی کد:
-
-1. **i18n System** — سیستم ترجمهٔ درونی (فارسی/انگلیسی)
-2. **Encryption Module** — رمزنگاری AES-256 و PBKDF2
-3. **Firebase Integration** — اتصال به Firestore
-4. **Storage Abstraction** — Firebase → Claude Storage → LocalStorage
-5. **Render Functions** — رندر UI برای هر صفحه
-
----
-
-## 🌍 پشتیبانی زبان‌ها | Language Support
-
-| زبان | کد | وضعیت | توضیح |
-|------|------|--------|---------|
-| فارسی | `fa` | ✅ کامل | زبان پیش‌فرض |
-| English | `en` | ✅ کامل | رابط انگلیسی |
-| Turkish | `tr` | ⏳ در حال آمادگی | - |
-| العربية | `ar` | ⏳ در حال آمادگی | - |
-
----
-
-## 🐛 مسائل و حل‌ها | Troubleshooting
-
-### مشکل: "Saving failed"
-**حل:** 
-- اگر در Claude از artifact استفاده می‌کنید، آن را Publish کنید
-- اگر Firebase استفاده می‌کند، Firebase config صحیح بود بررسی کنید
-
-### مشکل: رمز کار نمی‌کند
-**حل:** مرورگر باید Web Crypto API را پشتیبانی کند (Modern browsers)
-
-### مشکل: لینک در دستگاه دیگری کار نمی‌کند
-**حل:** 
-- اگر Firebase متصل است، باید کار کند
-- اگر فایل را دانلود کردید (بدون Firebase)، لینک فقط روی همین دستگاه/مرورگر کار می‌کند
-
-### مشکل: "This page runs in a sandboxed environment"
-**حل:** این پیام برای استفاده در Claude است. برای استفاده همگانی، فایل را دانلود کنید یا روی سرور میزبانی کنید.
-
----
-
-## 📋 نقشهٔ راه | Roadmap
-
-- [x] رمزنگاری AES-256
-- [x] استفادهٔ یک‌بار
-- [x] دوزبانه (فارسی/انگلیسی)
-- [x] Firebase Integration
-- [ ] سایر زبان‌ها (ترکی، عربی)
-- [ ] QR Code generation
-- [ ] محدودیت زمانی (expiration)
-- [ ] شمارندهٔ دسترسی
-- [ ] انتخاب نسخهٔ رنگی (Light/Dark/Custom)
-- [ ] صادرات/وارد کردن تنظیمات
-- [ ] API برای توسعه‌دهندگان
-
----
-
-## 👥 سازندگان | Credits
-
-- **🎨 Offers Pishnahadat** — طراح و سازنده اصلی
-  - 📧 [Offerspishnahadat.feedback@gmail.com](mailto:Offerspishnahadat.feedback@gmail.com)
-  - 🎬 [YouTube: @offers_pishnahadat](https://www.youtube.com/@offers_pishnahadat)
-  - 🌐 [zaya.io/offers_pishnahadat](https://zaya.io/offers_pishnahadat)
-
-- **🤖 Claude (Anthropic)** — کمک در طراحی و توسعهٔ کد و Firebase Integration
-  - AI Assistant
-
----
-
-## 📜 مجوز | License
-
-این پروژه تحت مجوز **MIT** منتشر شده است.
-
-```
-MIT License
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, and/or publish the Software...
-```
-
----
-
-## 💬 بازخورد و پیشنهادات | Feedback
-
-اگر مشکلی پیدا کردید یا ایده‌ای دارید:
-- 📧 ایمیل بفرستید: [Offerspishnahadat.feedback@gmail.com](mailto:Offerspishnahadat.feedback@gmail.com)
-- 🎬 یوتیوب کامنت بگذارید: [@offers_pishnahadat](https://www.youtube.com/@offers_pishnahadat)
-- 💬 GitHub Issues برای بق‌ریپورت
-
----
-
-## 🔄 نسخهٔ پروژه | Version History
-
-| نسخه | تاریخ | تغییرات |
-|------|---------|----------|
-| 1.0.0 | 2026 | رونمایی اولیه |
-| 1.0.1 | 2026 | Firebase Integration + Cross-Device Support |
-| ? | ⏳ | افزودن زبان‌های جدید + QR Code |
-| ? | ⏳ | محدودیت زمانی و شمارندهٔ دسترسی |
-
----
-
-## 📞 تماس | Contact
-
-```
-Offers Pishnahadat
-📧 Offerspishnahadat.feedback@gmail.com
-🎬 https://www.youtube.com/@offers_pishnahadat
-🌐 https://zaya.io/offers_pishnahadat
-```
-
----
-
-**ساخته شده با ❤️ در ایران | Made with ❤️ in Iran**
+بعدش دوباره وارد داشبورد شو — بخش «همهٔ کاربران (ادمین)» باید ظاهر بشه.
