@@ -155,7 +155,7 @@ npx http-server
 
 ### رمزنگاری | Encryption
 ```
-// PBKDF2-SHA256 برای مشتق کردن کلید — 150,000 iterations
+// PBKDF2-SHA256 برای مشتق کردن کلید — 100,000 iterations
 // AES-256-GCM برای رمزنگاری و تأیید هویت
 // Unique salt و IV برای هر لینک
 ```
