@@ -1,84 +1,394 @@
-# مهاجرت «مُهر» از GitHub Gist/Firebase به Cloudflare D1
+# 📜 مُهر — ابزار لینک محرمانه
+## 🔐 Secret Link Tool
 
-## 🚨 اول از همه: این کار فوریه
-
-فایل `auth.js` قدیمیت یه GitHub Token واقعی و فعال داخلش داشت که توی یه ریپوی عمومی (یا صفحهٔ عمومی GitHub Pages) منتشر شده بود — یعنی هر کسی می‌تونست کد صفحه رو ببینه و اون توکن رو برداره. با اینکه اسکوپش فقط روی Gist بوده (نمی‌تونه به ریپوهات دست بزنه)، بازم با اون توکن می‌شد هر کدوم از Gistهای اکانتت (نه فقط مال این پروژه) رو خوند/تغییر داد/حذف کرد.
-
-**همین الان برو و توکن رو باطل کن:**
-1. برو به [github.com/settings/tokens](https://github.com/settings/tokens)
-2. دنبال توکنی بگرد که با `ghp_...MPzznBr...` شروع می‌شه
-3. بزن **Delete** (یا Revoke)
-
-این کار مستقل از بقیهٔ این راهنماست — حتی اگه فردا Worker رو دیپلوی نکنی، همین الان این توکن رو باطل کن.
+![License](https://img.shields.io/badge/License-MIT-green)
+![Language](https://img.shields.io/badge/Language-HTML%2FCSS%2FJS-blue)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![Backend](https://img.shields.io/badge/Backend-Cloudflare%20Workers-orange)
+![Database](https://img.shields.io/badge/Database-Cloudflare%20D1-orange)
 
 ---
 
-## چی عوض شد؟
+## 🎯 درباره پروژه | About
 
-سه فایل از پروژه‌ت ویرایش شدن تا به‌جای GitHub Gist / Firebase، از یه Worker اختصاصی + دیتابیس D1 استفاده کنن:
+**مُهر** یک ابزار وب مدرن و ایمن برای ایجاد و اشتراک‌گذاری لینک‌های محرمانه است که از **Cloudflare Workers** و **Cloudflare D1** برای پردازش و ذخیره‌سازی استفاده می‌کند.
 
-- **`index.html`** — ابزار اصلی ساخت/باز کردن لینک محرمانه (بدون نیاز به لاگین)
-- **`auth.js`** — ورود/ثبت‌نام/session (رمزنگاری پسورد حالا سمت سرور انجام می‌شه، نه توی مرورگر)
-- **`dashboard.html`** — لیست لینک‌های خودت و (برای ادمین) لیست همهٔ لینک‌های متصل به حساب‌ها
+**Mohr** is a modern and secure web tool for creating and sharing confidential links, powered by **Cloudflare Workers** and **Cloudflare D1**, with advanced AES-256 encryption and one-time access features.
 
-**`login.html` و `signup.html` نیازی به تغییر ندارن** — همون‌طوری که هستن بمونن.
+لینک صفحه برای استفاده:
+🌐 https://alireza123456w6w.github.io/link_mohr.w6w/
 
-رمزنگاری AES-256 لینک‌ها هنوز کاملاً سمت مرورگر انجام می‌شه (zero-knowledge) — این بخش دست نخورده. فقط جایی که قبلاً داده روی Gist/Firebase ذخیره می‌شد، حالا میره روی D1.
-
-**یه تغییر کوچیک رفتاری:** قبلاً وقتی یه لینک یک‌بارمصرف مصرف می‌شد، توی داشبورد یه ردیف خاکستری «قبلاً استفاده شده» با دکمهٔ «حذف از لیست» نشونت می‌داد. الان چون واقعاً از دیتابیس پاک می‌شه، همون لحظه از کل لیست غیب می‌شه — نتیجهٔ نهایی یکیه، فقط یه قدم کمتر داره.
+مخزن گیت‌هاب:
+💻 https://github.com/Alireza123456w6w/link_mohr.w6w
 
 ---
 
-## مرحله ۱: ساخت دیتابیس D1
+### ✨ ویژگی‌های اصلی | Key Features
 
-توی `dash.cloudflare.com`:
-- **Workers & Pages → D1 → Create database**
-- اسمش رو `mohr-db` بذار
-- برو تب **Console** همون دیتابیس، محتوای فایل `schema.sql` رو (جمله‌جمله، هر `CREATE TABLE`/`CREATE INDEX` رو جدا) پیست و Execute کن
+- 🔐 **رمزنگاری AES-256-GCM** با اشتقاق کلید PBKDF2-SHA256 (۱۵۰,۰۰۰ تکرار)
+  - **AES-256-GCM Encryption** with PBKDF2-SHA256 key derivation (150,000 iterations)
 
-## مرحله ۲: ساخت Worker
+- 🔄 **استفادهٔ یک‌بار** — لینک بعد از اولین باز شدن خودکار پاک می‌شود
+  - **One-Time Use** — Link automatically deletes itself after first access
 
-- **Workers & Pages → Create application → Create Worker**
-- اسمش رو `mohr-backend` بذار، Deploy کن
-- **Edit code** رو بزن، کل کد پیش‌فرض رو پاک کن، محتوای فایل `src/index.js` رو جایگزینش کن
-- **Save and Deploy**
+- 🔑 **محافظت با رمز عبور** — رمز هرگز ذخیره نمی‌شود، فقط برای رمزگشایی استفاده می‌شود
+  - **Password Protection** — Password is never stored, used only for decryption
 
-## مرحله ۳: وصل کردن دیتابیس
+- 🌐 **پشتیبانی دوزبانه** (فارسی و انگلیسی) + سایر زبان‌ها در راه
+  - **Multi-Language Support** (Persian, English; Turkish & Arabic coming soon)
 
-- توی صفحهٔ همون Worker: **Settings → Bindings → Add binding → D1 database**
-- Variable name: دقیقاً `DB`
-- دیتابیس: `mohr-db`
+- 📱 **Responsive Design** — کار می‌کند روی تمام دستگاه‌ها
+  - Works perfectly on desktop, tablet, and mobile devices
 
-## مرحله ۴: تنظیم آدرس مجاز (CORS)
+- ☁️ **زیرساخت Cloudflare (Workers + D1)**
+  - **Cloudflare Workers** — منطق برنامه و رمزنگاری در edge اجرا می‌شود، سریع و بدون تأخیر
+  - **Cloudflare D1** — پایگاه‌دادهٔ SQL سراسری برای ذخیرهٔ متادیتای لینک‌ها
+  - **Cross-Device Support** — دسترسی به لینک‌ها از هر مرورگر و دستگاهی
 
-توی فایل `src/index.js` که پیست کردی، این خط بالای فایله:
-```js
-const ALLOWED_ORIGIN = "https://alireza123456w6w.github.io";
+- 🎨 **طراحی شیک و حرفه‌ای** — رابط کاربری با تم «مُهر و موم»، انیمیشن‌های نرم
+  - Beautiful wax-seal themed UI with smooth animations
+
+- 🔒 **رمز هرگز ذخیره نمی‌شود**
+  - Passwords are only used for encryption, never stored
+
+---
+
+## 🚀 شروع سریع | Quick Start
+
+### روش ۱: استفاده مستقیم (بهترین برای امتحان سریع)
+1. صفحهٔ آنلاین را باز کنید: https://alireza123456w6w.github.io/link_mohr.w6w/
+2. برای ایجاد لینک محرمانه شروع کنید!
+3. لینک تولید شده را با هرکسی شریک کنید
+
+### روش ۲: راه‌اندازی محلی برای توسعه (Cloudflare Workers)
+برای اجرای کامل بک‌اند (Workers + D1) روی سیستم خودتان:
+
+**نیازمندی‌ها | Requirements**
+- Node.js (پیشنهاد: نسخهٔ 16 به بالا)
+- [wrangler](https://developers.cloudflare.com/workers/wrangler/) (ابزار خط‌فرمان Cloudflare)
+- حساب Cloudflare با دسترسی به D1
+- متغیرهای محیطی: `CF_ACCOUNT_ID`, `CF_API_TOKEN`, نام binding مربوط به D1
+
+**مراحل | Steps**
+1. کلون کردن مخزن:
+   ```bash
+   git clone https://github.com/Alireza123456w6w/link_mohr.w6w.git
+   cd link_mohr.w6w
+   ```
+2. نصب وابستگی‌ها:
+   ```bash
+   npm install
+   ```
+3. اجرای محلی:
+   ```bash
+   wrangler dev
+   ```
+
+نمونهٔ `wrangler.toml` (مقادیر را جایگزین کنید):
+```toml
+name = "link_mohr"
+account_id = "<CF_ACCOUNT_ID>"
+workers_dev = true
+type = "javascript"
+
+[d1_databases]
+bindings = [
+  { name = "DB", database_name = "LINK_MOHR_DB" }
+]
 ```
-اگه آدرس واقعی سایتت (پروتکل + دامنه، بدون مسیر بعدش) با این فرق داره، همینجا توی ویرایشگر Worker عوضش کن و دوباره Deploy بزن.
 
-## مرحله ۵: آپدیت آدرس Worker در فایل‌های سایت
-
-بعد از دیپلوی Worker یه آدرس می‌گیری، چیزی مثل:
+### روش ۳: میزبانی به‌عنوان فرانت‌اند ساده (بدون بک‌اند)
+```bash
+# هر سرور وب ساده‌ای می‌تواند فایل‌های استاتیک را serve کند
+python -m http.server 8000
+# یا
+npx http-server
 ```
-https://mohr-backend.YOUR-SUBDOMAIN.workers.dev
+⚠️ در این حالت، ذخیره‌سازی ابری و اشتراک بین‌دستگاهی کار نمی‌کند؛ فقط برای پیش‌نمایش رابط کاربری مناسب است.
+
+---
+
+## 📖 راهنمای استفاده | How to Use
+
+### ساخت لینک محرمانه | Creating a Secret Link
+1. **آدرس مقصد را وارد کنید** — Enter the destination URL you want to hide
+2. **گزینه‌ها را انتخاب کنید:**
+   - ✅ استفادهٔ یک‌بار (One-Time Use)
+   - ✅ محافظت با رمز (Password Protection)
+3. **دکمهٔ «مُهر و موم کن» را بزنید** — Click "Seal it"
+4. **لینک یا کد تولیدشده را کپی کنید**
+
+### باز کردن لینک محرمانه | Opening a Secret Link
+1. صفحهٔ ابزار را باز کنید
+2. دکمهٔ «کد یه لینک رو داری؟» را بزنید
+3. کد یا لینک را پیست کنید
+4. در صورت وجود رمز، آن را وارد کنید
+5. لینک را باز کنید
+
+---
+
+## 🏗️ معماری پروژه | Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│   کاربر A: ایجاد لینک محرمانه               │
+│   مرورگر → رمزنگاری (Web Crypto API)         │
+│   ➜ Worker  →  D1 (ذخیرهٔ متادیتای رمزشده)   │
+└────────────────┬────────────────────────────┘
+                  │
+           ☁️ Cloudflare Workers + D1
+                  │
+┌─────────────────▼────────────────────────────┐
+│   کاربر B: باز کردن لینک (دستگاه دیگر)       │
+│   مرورگر → Worker → D1 → رمزگشایی در مرورگر   │
+└───────────────────────────────────────────────┘
 ```
 
-این آدرس رو باید توی **دو جا** جایگزین کنی (هر دو فایل توی همین پکیج آماده‌ن، فقط کافیه این خط رو توشون پیدا و ویرایش کنی):
+- **Frontend:** صفحات استاتیک / SPA (`index.html`, `login.html`, `signup.html`, `dashboard.html`)
+- **Backend:** Cloudflare Workers (منطق برنامه و رمزنگاری)
+- **Database:** Cloudflare D1 (متادیتا و وضعیت لینک‌ها)
+- **جریان داده:** Browser → Worker → D1 → Worker → Browser
 
-- `index.html` — خط `const API_BASE = "https://PUT-YOUR-WORKER-URL-HERE.workers.dev";`
-- `auth.js` — همون خط، همون مقدار
+---
 
-## مرحله ۶: آپلود روی GitHub
+## 🔐 امنیت | Security Details
 
-فایل‌های `index.html`، `auth.js`، `dashboard.html` رو (با مقادیر آپدیت‌شدهٔ `API_BASE`) جایگزین نسخه‌های قدیمی توی ریپوی `link_mohr.w6w` کن. `login.html` و `signup.html` رو دست نزن.
+### رمزنگاری | Encryption
+```
+// PBKDF2-SHA256 برای مشتق کردن کلید — 150,000 iterations
+// AES-256-GCM برای رمزنگاری و تأیید هویت
+// Unique salt و IV برای هر لینک
+```
 
-## مرحله ۷: ساختن اکانت ادمین
+### نکات مهم ⚠️
+- رمز **هرگز** ذخیره نمی‌شود — فقط برای رمزنگاری/رمزگشایی استفاده می‌شود
+- اگر رمز اشتباه وارد شود، رمزگشایی خودکار ناموفق است
+- داده‌ها به‌صورت رمزشده در Cloudflare D1 ذخیره می‌شوند
+- هیچ log سروری از محتوای لینک‌ها نگهداری نمی‌شود
 
-بعد از اینکه یه‌بار با یوزرنیم خودت ثبت‌نام کردی، برو تب **Console** دیتابیس `mohr-db` و این رو اجرا کن (به‌جای `یوزرنیمت` اسم واقعیتو بذار):
+### محدودیت‌ها | Limitations
+- برای اطلاعات **فوق‌حساس** (رمزهای بانکی، کد ملی و مشابه) توصیه نمی‌شود
+- بهترین کاربرد: لینک‌های فناوری، فایل‌ها، و محتوای عمومی حساس
 
+---
+
+## ⚙️ پیکربندی Cloudflare | Cloudflare Configuration
+
+### مشخصات پروژه (نمونه)
+```
+Worker name: link_mohr
+D1 Database: LINK_MOHR_DB
+Binding: DB
+Table: mohr_secrets
+```
+
+### نمونهٔ اسکیمای D1 (مثال)
 ```sql
-UPDATE users SET is_admin = 1 WHERE username = 'یوزرنیمت';
+CREATE TABLE mohr_secrets (
+  id TEXT PRIMARY KEY,
+  encrypted_data TEXT NOT NULL,
+  salt TEXT NOT NULL,
+  iv TEXT NOT NULL,
+  one_time INTEGER DEFAULT 1,
+  created_at INTEGER NOT NULL,
+  expires_at INTEGER
+);
 ```
 
-بعدش دوباره وارد داشبورد شو — بخش «همهٔ کاربران (ادمین)» باید ظاهر بشه.
+### نحوهٔ تنظیم برای خودتان
+1. به [Cloudflare Dashboard](https://dash.cloudflare.com/) بروید و وارد شوید
+2. با `wrangler login` حساب خود را متصل کنید
+3. یک پایگاه‌دادهٔ D1 بسازید: `wrangler d1 create LINK_MOHR_DB`
+4. binding را در `wrangler.toml` مطابق نمونهٔ بالا تنظیم کنید
+5. جدول را با `wrangler d1 execute` ایجاد کنید
+
+### 🔁 مهاجرت از دیتابیس قبلی | Database Migration
+- از دیتابیس قبلی خروجی (Export) بگیرید (CSV/SQL)
+- اسکیمای D1 را طبق نمونهٔ بالا تعریف کنید
+- یک اسکریپت مهاجرت (Node.js یا یک Worker موقت) بنویسید تا داده‌ها به D1 وارد شوند
+- ابتدا روی محیط staging تست کنید، سپس در production اجرا کنید
+
+---
+
+## 🚀 استقرار | Deploy
+```bash
+wrangler publish
+```
+
+## 🧪 تست و دیباگ | Testing & Debugging
+- `npm test` (در صورت وجود)
+- استفاده از curl یا Postman برای تست endpointهای محلی
+- مشاهدهٔ لاگ‌ها از طریق `console.log` در Worker یا داشبورد Cloudflare Workers
+
+---
+
+## 🎨 طراحی | Design System
+
+### رنگ‌ها | Colors
+```css
+--ink: #171512              /* پس‌زمینهٔ تیره */
+--brass: #c9a15b            /* برنج (رنگ اصلی) */
+--wax: #8c2a34               /* موم (دکمه‌ها) */
+--parchment: #ece3ce         /* پرگامنت (متن) */
+--danger: #c96b3d            /* قرمز (خطاها) */
+--ok: #7f9e6d                /* سبز (لینک صحیح) */
+```
+
+### فونت‌ها | Fonts
+- **متن اصلی:** Vazirmatn (فارسی)
+- **کد:** IBM Plex Mono
+
+---
+
+## 📱 Responsive Breakpoints
+
+| دستگاه   | عرض           | وضعیت       |
+| -------- | ------------- | ----------- |
+| موبایل   | < 420px       | ✅ بهینه‌شده |
+| تبلت     | 420px – 768px | ✅ بهینه‌شده |
+| کامپیوتر | > 768px       | ✅ بهینه‌شده |
+
+---
+
+## 🛠️ ساختار پروژه | Project Structure
+
+```
+index.html         # صفحهٔ اصلی ابزار (ساخت/باز کردن لینک)
+login.html         # صفحهٔ ورود کاربر
+signup.html        # صفحهٔ ثبت‌نام کاربر
+dashboard.html      # پنل کاربری
+auth.js             # منطق احراز هویت
+README.md           # این فایل
+```
+
+### سازماندهی کد | Code Organization
+1. **i18n System** — سیستم ترجمهٔ درونی (فارسی/انگلیسی)
+2. **Encryption Module** — رمزنگاری AES-256-GCM و PBKDF2
+3. **Cloudflare Integration** — اتصال به Workers و D1
+4. **Storage Abstraction** — D1 → LocalStorage (fallback آفلاین)
+5. **Auth Module** — ورود، ثبت‌نام و پنل کاربری (`auth.js`)
+6. **Render Functions** — رندر UI برای هر صفحه
+
+---
+
+## 🌍 پشتیبانی زبان‌ها | Language Support
+
+| زبان    | کد   | وضعیت           | توضیح        |
+| ------- | ---- | --------------- | ------------ |
+| فارسی   | `fa` | ✅ کامل          | زبان پیش‌فرض |
+| English | `en` | ✅ کامل          | رابط انگلیسی |
+| Turkish | `tr` | ⏳ در حال آماده‌سازی | -            |
+| العربية | `ar` | ⏳ در حال آماده‌سازی | -            |
+
+---
+
+## 🐛 مسائل و راه‌حل‌ها | Troubleshooting
+
+### مشکل: لینک در دستگاه دیگری کار نمی‌کند
+**حل:**
+- مطمئن شوید Worker و D1 به‌درستی تنظیم و متصل‌اند
+- اگر فایل را به‌صورت آفلاین دانلود کرده‌اید (بدون بک‌اند)، لینک فقط روی همان دستگاه/مرورگر کار می‌کند
+
+### مشکل: رمز کار نمی‌کند
+**حل:** مرورگر باید از Web Crypto API پشتیبانی کند (مرورگرهای مدرن)
+
+### مشکل: خطای اتصال به D1 یا Worker
+**حل:**
+- مقادیر `CF_ACCOUNT_ID`، `CF_API_TOKEN` و نام binding مربوط به D1 را در `wrangler.toml` بررسی کنید
+- با `wrangler dev` خطاهای لاگ را بررسی کنید
+
+---
+
+## 📋 نقشهٔ راه | Roadmap
+
+- [x] رمزنگاری AES-256-GCM
+- [x] استفادهٔ یک‌بار
+- [x] دوزبانه (فارسی/انگلیسی)
+- [x] مهاجرت زیرساخت از دیتابیس قبلی به Cloudflare D1 + Workers
+- [ ] سایر زبان‌ها (ترکی، عربی)
+- [ ] QR Code generation
+- [ ] محدودیت زمانی (expiration)
+- [ ] شمارندهٔ دسترسی
+- [ ] انتخاب نسخهٔ رنگی (Light/Dark/Custom)
+- [ ] صادرات/وارد کردن تنظیمات
+- [ ] API برای توسعه‌دهندگان
+
+---
+
+## 🤝 مشارکت | Contributing
+1. مخزن را Fork کنید
+2. یک برنچ جدید بسازید: `feature/نام-ویژگی`
+3. پیش از ارسال Pull Request، تست‌ها و لینتر را اجرا کنید
+
+---
+
+## 👥 سازندگان | Credits
+
+- **🎨 Offers Pishnahadat** — طراح و سازندهٔ اصلی
+  - 📧 Offerspishnahadat.feedback@gmail.com
+  - 🎬 [YouTube: @offers_pishnahadat](https://www.youtube.com/@offers_pishnahadat)
+  - 🌐 [zaya.io/offers_pishnahadat](https://zaya.io/offers_pishnahadat)
+
+- **🤖 Claude (Anthropic)** — کمک در طراحی، توسعهٔ کد و مهاجرت زیرساخت به Cloudflare D1 + Workers
+  - AI Assistant
+
+---
+
+## 📜 مجوز | License
+
+این پروژه تحت مجوز **MIT** منتشر شده است.
+
+```
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+```
+
+---
+
+## 💬 بازخورد و پیشنهادات | Feedback
+
+- 📧 ایمیل: Offerspishnahadat.feedback@gmail.com
+- 🎬 یوتیوب: [@offers_pishnahadat](https://www.youtube.com/@offers_pishnahadat)
+- 💬 GitHub Issues برای گزارش باگ
+
+---
+
+## 🔄 نسخهٔ پروژه | Version History
+
+| نسخه  | تاریخ | تغییرات                                                          |
+| ----- | ----- | ----------------------------------------------------------------- |
+| 1.0.0 | 2026  | رونمایی اولیه                                                     |
+| 1.0.1 | 2026  | یکپارچه‌سازی اولیهٔ ذخیره‌سازی ابری + پشتیبانی بین‌دستگاهی           |
+| 1.1.0 | 2026  | مهاجرت زیرساخت به Cloudflare Workers + D1؛ افزودن ورود/ثبت‌نام/پنل کاربری |
+| ?     | ⏳     | افزودن زبان‌های جدید + QR Code                                     |
+| ?     | ⏳     | محدودیت زمانی و شمارندهٔ دسترسی                                    |
+
+---
+
+## 📞 تماس | Contact
+
+```
+Offers Pishnahadat
+📧 Offerspishnahadat.feedback@gmail.com
+🎬 https://www.youtube.com/@offers_pishnahadat
+🌐 https://zaya.io/offers_pishnahadat
+
+Alireza — https://github.com/Alireza123456w6w
+```
+
+---
+
+**ساخته شده با ❤️ در ایران | Made with ❤️ in Iran**
