@@ -11,12 +11,12 @@
 
 ## 🎯 درباره پروژه | About
 
-**مُهر** یک ابزار وب مدرن و ایمن برای ایجاد و اشتراک‌گذاری لینک‌های محرمانه است که از **Cloudflare Workers** و **Cloudflare D1** برای پردازش و ذخیره‌سازی استفاده می‌کند.
+**مُهر** یک ابزار وب مدرن و ایمن برای ایجاد و اشتراک‌گذاری لینک‌های محرمانه است که از **Cloudflare Workers** و **Cloudflare D1** استفاده می‌کند، با رمزنگاری پیشرفتهٔ AES-256 و دسترسی یک‌بار.
 
-**Mohr** is a modern and secure web tool for creating and sharing confidential links, powered by **Cloudflare Workers** and **Cloudflare D1**, with advanced AES-256 encryption and one-time access features.
+**Mohr** is a modern and secure web tool for creating and sharing confidential links, powered by **Cloudflare Workers** and **Cloudflare D1**, with advanced AES-256 encryption and one-time access control.
 
 لینک صفحه برای استفاده:
-🌐 https://alireza123456w6w.github.io/link_mohr.w6w
+🌐 https://linkmohr-w6w.vercel.app
 
 مخزن گیت‌هاب:
 💻 https://github.com/Alireza123456w6w/link_mohr.w6w
@@ -31,7 +31,7 @@
 - 🔄 **استفادهٔ یک‌بار** — لینک بعد از اولین باز شدن خودکار پاک می‌شود
   - **One-Time Use** — Link automatically deletes itself after first access
 
-- 🔑 **محافظت با رمز عبور** — رمز هرگز ذخیره نمی‌شود، فقط برای رمزگشایی استفاده می‌شود
+- 🔑 **محافظت با رمز** — رمز هرگز ذخیره نمی‌شود، فقط برای رمزگشایی استفاده می‌شود
   - **Password Protection** — Password is never stored, used only for decryption
 
 - 🌐 **پشتیبانی دوزبانه** (فارسی و انگلیسی) + سایر زبان‌ها در راه
@@ -56,7 +56,7 @@
 ## 🚀 شروع سریع | Quick Start
 
 ### روش ۱: استفاده مستقیم (بهترین برای امتحان سریع)
-1. صفحهٔ آنلاین را باز کنید: https://alireza123456w6w.github.io/link_mohr.w6w/
+1. صفحهٔ آنلاین را باز کنید: https://linkmohr-w6w.vercel.app
 2. برای ایجاد لینک محرمانه شروع کنید!
 3. لینک تولید شده را با هرکسی شریک کنید
 
@@ -135,9 +135,9 @@ npx http-server
 │   مرورگر → رمزنگاری (Web Crypto API)         │
 │   ➜ Worker  →  D1 (ذخیرهٔ متادیتای رمزشده)   │
 └────────────────┬────────────────────────────┘
-                  │
-           ☁️ Cloudflare Workers + D1
-                  │
+                   │
+            ☁️ Cloudflare Workers + D1
+                   │
 ┌─────────────────▼────────────────────────────┐
 │   کاربر B: باز کردن لینک (دستگاه دیگر)       │
 │   مرورگر → Worker → D1 → رمزگشایی در مرورگر   │
